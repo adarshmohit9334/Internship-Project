@@ -14,14 +14,14 @@ CREATE TABLE IF NOT EXISTS profiles (
 
 CREATE TABLE IF NOT EXISTS bg_requests (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  requester_id UUID REFERENCES profiles(id) NOT NULL,
+  requester_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
   department TEXT NOT NULL,
   location TEXT NOT NULL,
   date_of_request DATE DEFAULT CURRENT_DATE,
   work_order_no TEXT NOT NULL,
   type_of_work TEXT NOT NULL,
   job_value NUMERIC(15,2) NOT NULL,
-  alternate_owner_id UUID REFERENCES profiles(id),
+  alternate_owner_id UUID REFERENCES profiles(id) ON DELETE SET NULL,
   party_name TEXT NOT NULL,
   nature_of_bg TEXT NOT NULL CHECK (nature_of_bg IN ('Performance','Advance','Financial','Bid Bond')),
   bg_amount NUMERIC(15,2) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS bg_requests (
   approval_level TEXT CHECK (approval_level IN ('MD','Board')),
   status TEXT DEFAULT 'Draft' CHECK (status IN ('Draft','Pending','Under Review','Approved','Rejected')),
   admin_remarks TEXT,
-  decided_by UUID REFERENCES profiles(id),
+  decided_by UUID REFERENCES profiles(id) ON DELETE SET NULL,
   decision_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -48,8 +48,8 @@ CREATE TABLE IF NOT EXISTS attachments (
 
 CREATE TABLE IF NOT EXISTS activity_log (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  bg_request_id UUID REFERENCES bg_requests(id),
-  action_by UUID REFERENCES profiles(id),
+  bg_request_id UUID REFERENCES bg_requests(id) ON DELETE CASCADE,
+  action_by UUID REFERENCES profiles(id) ON DELETE SET NULL,
   action TEXT NOT NULL,
   old_status TEXT,
   new_status TEXT,
