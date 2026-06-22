@@ -15,12 +15,15 @@ def upload_attachment(file, bg_request_id, attachment_type):
         from extensions import get_supabase_client
         client = get_supabase_client()
         if client:
-            client.storage.from_(current_app.config['SUPABASE_STORAGE_BUCKET']).upload(
-                storage_path,
-                file_bytes,
-                file_options={'content-type': file.mimetype}
-            )
-            return storage_path
+            try:
+                client.storage.from_(current_app.config['SUPABASE_STORAGE_BUCKET']).upload(
+                    storage_path,
+                    file_bytes,
+                    file_options={'content-type': file.mimetype}
+                )
+                return storage_path
+            except Exception as e:
+                print(f"Supabase storage upload failed: {e}. Falling back to local upload.")
 
     upload_dir = Path(current_app.config['UPLOAD_FOLDER']) / str(bg_request_id)
     upload_dir.mkdir(parents=True, exist_ok=True)
@@ -34,8 +37,11 @@ def get_signed_url(file_path, expires_in=3600):
         from extensions import get_supabase_client
         client = get_supabase_client()
         if client:
-            response = client.storage.from_(current_app.config['SUPABASE_STORAGE_BUCKET']).create_signed_url(file_path, expires_in)
-            return response.get('signedURL') or response.get('data', {}).get('signedURL')
+            try:
+                response = client.storage.from_(current_app.config['SUPABASE_STORAGE_BUCKET']).create_signed_url(file_path, expires_in)
+                return response.get('signedURL') or response.get('data', {}).get('signedURL')
+            except Exception as e:
+                print(f"Supabase storage signed URL failed: {e}. Falling back to local path.")
     return file_path
 
 def delete_attachment(file_path):
@@ -43,4 +49,7 @@ def delete_attachment(file_path):
         from extensions import get_supabase_client
         client = get_supabase_client()
         if client:
-            client.storage.from_(current_app.config['SUPABASE_STORAGE_BUCKET']).remove([file_path])
+            try:
+                client.storage.from_(current_app.config['SUPABASE_STORAGE_BUCKET']).remove([file_path])
+            except Exception as e:
+                print(f"Supabase storage delete failed: {e}")
