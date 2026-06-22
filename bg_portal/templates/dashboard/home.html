@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Requester Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+<div class="stats-row">
+    <div class="stat-card"><div class="label">Total Requests</div><div class="number">{{ total }}</div><div class="accent-bar"></div></div>
+    <div class="stat-card"><div class="label">Pending</div><div class="number">{{ pending }}</div><div class="accent-bar"></div></div>
+    <div class="stat-card"><div class="label">Approved</div><div class="number">{{ approved }}</div><div class="accent-bar"></div></div>
+    <div class="stat-card"><div class="label">Rejected</div><div class="number">{{ rejected }}</div><div class="accent-bar"></div></div>
+</div>
+<section class="card-panel">
+    <div class="section-header-bar">Recent Requests</div>
+    <table class="table"><thead><tr><th>BG ID</th><th>Party</th><th>BG Amount</th><th>Status</th><th>Created</th></tr></thead><tbody>{% for row in recent %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.party_name }}</td><td>?{{ row.bg_amount }}</td><td><span class="badge badge-{{ row.status|lower|replace(' ', '-') }}">{{ row.status }}</span></td><td>{{ row.created_at }}</td></tr>{% endfor %}</tbody></table>
+</section>
+{% endblock %}

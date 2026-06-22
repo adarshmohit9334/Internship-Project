@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}Portal Dashboard{% endblock %}
+{% block content %}
+<div>
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-lg border border-outline-variant p-5 shadow-sm">
+            <p class="text-sm text-on-surface-variant">Total Applications</p>
+            <h3 class="mt-2 text-3xl font-bold">128</h3>
+        </div>
+        <div class="bg-white rounded-lg border border-outline-variant p-5 shadow-sm">
+            <p class="text-sm text-on-surface-variant">Pending Approvals</p>
+            <h3 class="mt-2 text-3xl font-bold">08</h3>
+        </div>
+        <div class="bg-white rounded-lg border border-outline-variant p-5 shadow-sm">
+            <p class="text-sm text-on-surface-variant">Approved Today</p>
+            <h3 class="mt-2 text-3xl font-bold">24</h3>
+        </div>
+        <div class="bg-white rounded-lg border border-outline-variant p-5 shadow-sm">
+            <p class="text-sm text-on-surface-variant">Avg. Review Time</p>
+            <h3 class="mt-2 text-3xl font-bold">2.4 hrs</h3>
+        </div>
+    </section>
+
+    <section class="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-6">
+        <div class="bg-white rounded-lg border border-outline-variant shadow-sm overflow-hidden">
+            <div class="flex items-center justify-between px-5 py-4 border-b border-outline-variant">
+                <h3 class="font-semibold">Recent Applications</h3>
+                <a href="{{ url_for('pending_approvals') }}" class="text-sm text-primary">View All</a>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-surface-container-low">
+                        <tr>
+                            <th class="px-4 py-3 text-left">Application ID</th>
+                            <th class="px-4 py-3 text-left">Applicant</th>
+                            <th class="px-4 py-3 text-left">Type</th>
+                            <th class="px-4 py-3 text-left">Amount</th>
+                            <th class="px-4 py-3 text-left">Date</th>
+                            <th class="px-4 py-3 text-left">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-t border-outline-variant">
+                            <td class="px-4 py-3">BGP-2023-9921</td>
+                            <td class="px-4 py-3">Global Tech Solutions</td>
+                            <td class="px-4 py-3">Performance Bond</td>
+                            <td class="px-4 py-3">$1,250,000</td>
+                            <td class="px-4 py-3">15 Dec 2025</td>
+                            <td class="px-4 py-3"><span class="px-2 py-1 rounded-full bg-[#eef2ff] text-[#3a54c4] text-xs font-semibold">MEDIUM</span></td>
+                        </tr>
+                        <tr class="border-t border-outline-variant">
+                            <td class="px-4 py-3">BGP-2023-9925</td>
+                            <td class="px-4 py-3">PetroChem Logistics</td>
+                            <td class="px-4 py-3">Advance Payment</td>
+                            <td class="px-4 py-3">$450,000</td>
+                            <td class="px-4 py-3">20 Jun 2024</td>
+                            <td class="px-4 py-3"><span class="px-2 py-1 rounded-full bg-[#eefbf5] text-[#15803d] text-xs font-semibold">LOW</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg border border-outline-variant p-5 shadow-sm">
+            <h3 class="font-semibold mb-4">Quick Actions</h3>
+            <div class="space-y-3">
+                <a href="{{ url_for('new_application') }}" class="block w-full bg-primary text-white rounded px-4 py-3 text-center">New Application</a>
+                <a href="{{ url_for('new_bg_request') }}" class="block w-full bg-surface-container text-on-surface rounded px-4 py-3 text-center">New BG Request</a>
+                <a href="{{ url_for('pending_approvals') }}" class="block w-full bg-surface-container text-on-surface rounded px-4 py-3 text-center">Review Pending</a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

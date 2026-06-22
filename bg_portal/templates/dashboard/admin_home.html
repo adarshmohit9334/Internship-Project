@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block page_title %}Admin Dashboard{% endblock %}
+{% block content %}
+<div class="stats-row">
+    <div class="stat-card"><div class="label">Total Requests</div><div class="number">{{ requests|length }}</div><div class="accent-bar"></div></div>
+    <div class="stat-card"><div class="label">Pending</div><div class="number">{{ pending|length }}</div><div class="accent-bar"></div></div>
+    <div class="stat-card"><div class="label">Approved</div><div class="number">{{ approved|length }}</div><div class="accent-bar"></div></div>
+    <div class="stat-card"><div class="label">Rejected</div><div class="number">{{ rejected|length }}</div><div class="accent-bar"></div></div>
+</div>
+<div class="card-panel"><div class="section-header-bar">Recent Activity</div><ul class="timeline">{% for item in activity %}<li><strong>{{ item.action }}</strong> ? {{ item.note }}</li>{% endfor %}</ul></div>
+{% endblock %}

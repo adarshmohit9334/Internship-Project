@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}BG Portal{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/modals.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/approval_toggle.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/confirm_modal.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}" defer></script>
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-badge">BG</div>
+                <div>
+                    <h3>BG Portal</h3>
+                    <p>Guarantee Management</p>
+                </div>
+            </div>
+            <nav>
+                {% set user = session.get('user') %}
+                {% if user and user.role == 'admin' %}
+                    <a href="{{ url_for('admin.dashboard') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.dashboard' else '' }}"><span>?</span><span>Dashboard</span></a>
+                    <a href="{{ url_for('admin.all_requests') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.all_requests' else '' }}"><span>?</span><span>All Requests</span></a>
+                    <a href="{{ url_for('approval.pending') }}" class="nav-item {{ 'active' if request.endpoint == 'approval.pending' else '' }}"><span>?</span><span>Pending</span></a>
+                    <a href="{{ url_for('admin.approved') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.approved' else '' }}"><span>?</span><span>Approved</span></a>
+                    <a href="{{ url_for('admin.rejected') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.rejected' else '' }}"><span>?</span><span>Rejected</span></a>
+                    <a href="{{ url_for('admin.users') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.users' else '' }}"><span>??</span><span>User Management</span></a>
+                    <a href="{{ url_for('report.reports') }}" class="nav-item {{ 'active' if request.endpoint == 'report.reports' else '' }}"><span>??</span><span>Reports</span></a>
+                    <a href="{{ url_for('settings.settings') }}" class="nav-item {{ 'active' if request.endpoint == 'settings.settings' else '' }}"><span>?</span><span>Settings</span></a>
+                {% else %}
+                    <a href="{{ url_for('dashboard.home') }}" class="nav-item {{ 'active' if request.endpoint == 'dashboard.home' else '' }}"><span>?</span><span>Dashboard</span></a>
+                    <a href="{{ url_for('request.new_request') }}" class="nav-item {{ 'active' if request.endpoint == 'request.new_request' else '' }}"><span>?</span><span>New Request</span></a>
+                    <a href="{{ url_for('request.my_requests') }}" class="nav-item {{ 'active' if request.endpoint == 'request.my_requests' else '' }}"><span>??</span><span>My Requests</span></a>
+                {% endif %}
+            </nav>
+        </aside>
+        <div class="main-panel">
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <button class="hamburger" aria-label="Toggle sidebar">?</button>
+                    <h2>{% block page_title %}Portal{% endblock %}</h2>
+                </div>
+                <div class="top-bar-center">
+                    <input type="search" placeholder="Search application or party name">
+                </div>
+                <div class="top-bar-right">
+                    {% if session.get('user') %}
+                        <a href="#">Change Password</a>
+                        <a href="{{ url_for('auth.logout') }}">Log Out</a>
+                    {% else %}
+                        <a href="{{ url_for('auth.login') }}">Login</a>
+                    {% endif %}
+                </div>
+            </header>
+            <main class="content-area">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-stack">
+                            {% for category, message in messages %}
+                                <div class="flash flash-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+            </main>
+        </div>
+    </div>
+    {% include 'components/confirm_modal.html' %}
+</body>
+</html>

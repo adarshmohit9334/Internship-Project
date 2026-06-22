@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}New BG Request{% endblock %}
+{% block content %}
+<div>
+    <div class="bg-[#2541B2] text-white p-4 rounded-t-lg shadow-sm flex items-center justify-between">
+        <div>
+            <h2 class="font-headline-sm text-headline-sm uppercase tracking-wide">New BG Request</h2>
+        </div>
+        <span class="bg-white/20 px-3 py-1 rounded text-label-sm">Request Form</span>
+    </div>
+
+    <form method="post" class="bg-white border border-outline-variant rounded-b-lg p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div>
+                <label class="block text-sm text-on-surface-variant mb-1">Guarantee Type</label>
+                <select name="guarantee_type" class="w-full border border-outline-variant rounded px-3 py-2">
+                    <option>Bid Bond</option>
+                    <option>Performance Bond</option>
+                    <option>Advance Payment</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm text-on-surface-variant mb-1">Beneficiary</label>
+                <input name="beneficiary" class="w-full border border-outline-variant rounded px-3 py-2" placeholder="Beneficiary name">
+            </div>
+            <div>
+                <label class="block text-sm text-on-surface-variant mb-1">Amount</label>
+                <input name="amount" class="w-full border border-outline-variant rounded px-3 py-2" placeholder="$0.00">
+            </div>
+            <div>
+                <label class="block text-sm text-on-surface-variant mb-1">Validity Date</label>
+                <input name="validity_date" class="w-full border border-outline-variant rounded px-3 py-2" placeholder="MM/DD/YYYY">
+            </div>
+            <div class="md:col-span-2">
+                <label class="block text-sm text-on-surface-variant mb-1">Terms & Conditions</label>
+                <textarea name="terms" class="w-full border border-outline-variant rounded px-3 py-2" rows="6" placeholder="Enter request terms and conditions"></textarea>
+            </div>
+        </div>
+
+        <div class="mt-6 flex justify-end gap-3">
+            <button type="submit" class="bg-primary text-white px-4 py-2 rounded">Submit Request</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

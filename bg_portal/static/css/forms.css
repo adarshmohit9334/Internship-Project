@@ -1,0 +1,6 @@
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--text-dark); }
+input, select, textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--border); border-radius: 4px; font-size: 14px; }
+input:focus, select:focus, textarea:focus { border-color: var(--royal-blue); outline: none; box-shadow: 0 0 0 2px rgba(37,65,178,0.15); }
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; }
+.section-header-bar { background: var(--royal-blue); color: white; padding: 10px 16px; font-weight: 700; margin-bottom: 16px; }

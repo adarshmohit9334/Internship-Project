@@ -1,0 +1,9 @@
+.sidebar { width: 220px; position: fixed; top: 0; left: 0; bottom: 0; background: var(--navy); color: white; overflow-y: auto; }
+.sidebar-logo { display: flex; gap: 10px; align-items: center; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.logo-badge { width: 40px; height: 40px; border-radius: 8px; background: white; color: var(--navy); display: grid; place-items: center; font-weight: 700; }
+.sidebar-logo h3 { margin: 0; font-size: 16px; }
+.sidebar-logo p { margin: 2px 0 0; color: #cbd5e1; font-size: 12px; }
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: white; }
+.nav-item:hover { background: rgba(255,255,255,0.08); }
+.nav-item.active { background: rgba(255,255,255,0.15); border-left: 3px solid white; }
+.hamburger { display: none; }

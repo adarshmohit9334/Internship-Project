@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Rejected Requests{% endblock %}
+{% block page_title %}Rejected Requests{% endblock %}
+{% block content %}
+<section class="card-panel"><div class="section-header-bar">Rejected BG Requests</div><table class="table"><thead><tr><th>ID</th><th>Party</th><th>Status</th></tr></thead><tbody>{% for row in requests %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.party_name }}</td><td><span class="badge badge-rejected">{{ row.status }}</span></td></tr>{% endfor %}</tbody></table></section>
+{% endblock %}

@@ -1,0 +1,88 @@
+{
+  "profiles": {
+    "9f4d204a-fd1c-4169-a05b-409fad9378d4": {
+      "id": "9f4d204a-fd1c-4169-a05b-409fad9378d4",
+      "name": "Demo User",
+      "email": "demo@example.com",
+      "employee_id": "EMP001",
+      "role": "Requester",
+      "password": "123456"
+    }
+  },
+  "requests": {
+    "1cf84d56-8ec8-4161-b113-1b7d6502c85f": {
+      "id": "1cf84d56-8ec8-4161-b113-1b7d6502c85f",
+      "applicant_name": "Demo User",
+      "customer_id": "CUST-123",
+      "product_category": "Performance Bond",
+      "requested_amount": "10000",
+      "description": "Test BG request",
+      "status": "Approved",
+      "created_at": "2026-06-22T12:18:37.477045"
+    },
+    "0241b5bb-c19a-4fa9-b627-8e22893d9b44": {
+      "id": "0241b5bb-c19a-4fa9-b627-8e22893d9b44",
+      "applicant_name": "Demo User",
+      "customer_id": "CUST-123",
+      "product_category": "Performance Bond",
+      "requested_amount": "10000",
+      "description": "Test BG request",
+      "status": "Draft",
+      "created_at": "2026-06-22T12:21:56.137069"
+    },
+    "3ee9e80f-a9d2-446d-9c18-9b17483200cd": {
+      "id": "3ee9e80f-a9d2-446d-9c18-9b17483200cd",
+      "guarantee_type": "Performance Bond",
+      "beneficiary": "Acme Corp",
+      "amount": "25000",
+      "validity_date": "2026-12-31",
+      "terms": "Sample terms",
+      "status": "Pending",
+      "created_at": "2026-06-22T12:21:56.148593"
+    },
+    "2126f342-bea8-4206-8dcf-3f5a5cd19ad9": {
+      "id": "2126f342-bea8-4206-8dcf-3f5a5cd19ad9",
+      "applicant_name": "Demo User",
+      "customer_id": "CUST-999",
+      "product_category": "Performance Bond",
+      "requested_amount": "5555",
+      "description": "For approval test",
+      "status": "Approved",
+      "created_at": "2026-06-22T12:30:01.382661"
+    },
+    "48c977f0-e0d6-4b65-abe0-615c21cbf815": {
+      "id": "48c977f0-e0d6-4b65-abe0-615c21cbf815",
+      "applicant_name": "",
+      "customer_id": "",
+      "product_category": "Performance Bond",
+      "requested_amount": "",
+      "description": "",
+      "status": "Draft",
+      "created_at": "2026-06-22T13:36:11.064009"
+    },
+    "d34c9734-a012-49a0-aa93-eff6d1cf44d9": {
+      "id": "d34c9734-a012-49a0-aa93-eff6d1cf44d9",
+      "applicant_name": "",
+      "customer_id": "",
+      "product_category": "Performance Bond",
+      "requested_amount": "",
+      "description": "",
+      "status": "Draft",
+      "created_at": "2026-06-22T13:36:11.950489"
+    }
+  },
+  "activity": [
+    {
+      "id": "320dbe01-c520-4e25-9bdc-2f2fc3cb178b",
+      "request_id": "2126f342-bea8-4206-8dcf-3f5a5cd19ad9",
+      "action": "Approved",
+      "created_at": "2026-06-22T12:30:01.394594"
+    },
+    {
+      "id": "1acc515c-e89e-4ef2-9fed-11cfd57976fa",
+      "request_id": "1cf84d56-8ec8-4161-b113-1b7d6502c85f",
+      "action": "Approved",
+      "created_at": "2026-06-22T13:34:04.782122"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+.table { width: 100%; border-collapse: collapse; }
+.table th { background: var(--teal); color: #1F2937; padding: 10px 12px; text-align: left; }
+.table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+.table tbody tr:nth-child(even) { background: var(--light-gray); }
+.table tbody tr:hover { background: #EBF0F8; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+.badge-pending, .badge-under-review { background: #FEF3C7; color: #92400E; }
+.badge-approved { background: #D1FAE5; color: #065F46; }
+.badge-rejected { background: #FEE2E2; color: #991B1B; }
+.badge-draft { background: #E5E7EB; color: #374151; }

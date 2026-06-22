@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Pending Approvals{% endblock %}
+{% block page_title %}Pending Approvals{% endblock %}
+{% block content %}
+<section class="card-panel"><div class="section-header-bar">Pending / Under Review</div><table class="table"><thead><tr><th>BG ID</th><th>Party</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead><tbody>{% for row in requests %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.party_name }}</td><td>?{{ row.bg_amount }}</td><td><span class="badge badge-{{ row.status|lower|replace(' ', '-') }}">{{ row.status }}</span></td><td><form method="post" action="{{ url_for('admin.update_status', request_id=row.id) }}"><input type="hidden" name="new_status" value="Approved"><input type="hidden" name="admin_remarks" value="Approved by admin"><button class="btn-approve btn-sm">Approve</button></form></td></tr>{% endfor %}</tbody></table></section>
+{% endblock %}

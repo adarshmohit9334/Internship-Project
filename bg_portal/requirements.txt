@@ -1,0 +1,7 @@
+flask
+supabase
+python-dotenv
+flask-wtf
+wtforms
+email-validator
+requests

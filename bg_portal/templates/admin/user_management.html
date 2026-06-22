@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}User Management{% endblock %}
+{% block page_title %}User Management{% endblock %}
+{% block content %}
+<section class="card-panel"><div class="section-header-bar">Users</div><table class="table"><thead><tr><th>P.No.</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody>{% for profile in profiles %}<tr><td>{{ profile.personnel_no }}</td><td>{{ profile.name }}</td><td>{{ profile.email }}</td><td>{{ profile.role }}</td><td>{{ 'Active' if profile.is_active else 'Inactive' }}</td><td><form method="post" action="{{ url_for('admin.update_role', user_id=profile.id) }}" style="display:inline;"><input type="hidden" name="role" value="{{ 'admin' if profile.role == 'requester' else 'requester' }}"><button class="btn-sm btn-outline">Toggle Role</button></form><form method="post" action="{{ url_for('admin.toggle_status', user_id=profile.id) }}" style="display:inline;"><button class="btn-sm btn-primary">Toggle Status</button></form></td></tr>{% endfor %}</tbody></table></section>
+{% endblock %}

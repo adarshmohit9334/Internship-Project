@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up Step 1{% endblock %}
+{% block page_title %}Sign Up{% endblock %}
+{% block content %}
+<div class="auth-card wide">
+    <h2>Sign Up ? Step 1</h2>
+    <form method="post">
+        <div class="form-grid-2">
+            <div class="form-group"><label>Department</label><input name="department" required></div>
+            <div class="form-group"><label>Location</label><input name="location" required></div>
+            <div class="form-group"><label>Name</label><input name="name" required></div>
+            <div class="form-group"><label>Personnel No.</label><input name="personnel_no" required></div>
+            <div class="form-group"><label>Designation</label><input name="designation" required></div>
+            <div class="form-group"><label>Mobile No.</label><input name="mobile_no" required></div>
+        </div>
+        <button type="submit" class="btn-primary">Continue</button>
+    </form>
+</div>
+{% endblock %}

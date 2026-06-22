@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Pending Approvals{% endblock %}
+{% block content %}
+<div>
+    <div class="bg-[#2541B2] text-white p-4 rounded-t-lg shadow-sm flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined">verified_user</span>
+            <h2 class="font-headline-sm text-headline-sm uppercase tracking-wide">Items Awaiting Your Approval</h2>
+        </div>
+        <div class="flex gap-2">
+            <span class="bg-white/20 px-3 py-1 rounded text-label-sm">Total Pending: {{ requests|length }}</span>
+            <span class="bg-white/20 px-3 py-1 rounded text-label-sm">SLA Critical: 0</span>
+        </div>
+    </div>
+
+    <div class="bg-white border border-outline-variant rounded-lg overflow-hidden mt-4">
+        <table class="w-full">
+            <thead>
+                <tr class="bg-surface-container-low">
+                    <th class="px-4 py-3 text-left font-label-sm text-on-surface-variant">Application ID</th>
+                    <th class="px-4 py-3 text-left font-label-sm text-on-surface-variant">Customer</th>
+                    <th class="px-4 py-3 text-left font-label-sm text-on-surface-variant">Type</th>
+                    <th class="px-4 py-3 text-left font-label-sm text-on-surface-variant">Amount</th>
+                    <th class="px-4 py-3 text-left font-label-sm text-on-surface-variant">Status</th>
+                    <th class="px-4 py-3 text-left font-label-sm text-on-surface-variant">Created</th>
+                    <th class="px-4 py-3 text-left font-label-sm text-on-surface-variant">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in requests %}
+                <tr class="border-t border-outline-variant">
+                    <td class="px-4 py-3 font-body-md">{{ item.id[:8] }}</td>
+                    <td class="px-4 py-3 font-body-md">{{ item.get('customer_id', 'N/A') }}</td>
+                    <td class="px-4 py-3 font-body-md">{{ item.get('product_category', item.get('guarantee_type', 'N/A')) }}</td>
+                    <td class="px-4 py-3 font-body-md">{{ item.get('requested_amount', item.get('amount', '0')) }}</td>
+                    <td class="px-4 py-3 font-body-md">{{ item.get('status', 'Pending') }}</td>
+                    <td class="px-4 py-3 font-body-md">{{ item.get('created_at', '') }}</td>
+                    <td class="px-4 py-3">
+                        {% if item.get('status') != 'Approved' %}
+                        <form method="post" action="{{ url_for('approve_request', request_id=item.id) }}">
+                            <button class="bg-primary text-white px-3 py-1.5 rounded">Approve</button>
+                        </form>
+                        {% else %}
+                        <span class="text-green-700">Approved</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="px-4 py-6 text-center text-on-surface-variant">No requests found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

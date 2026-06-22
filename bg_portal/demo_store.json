@@ -1,0 +1,74 @@
+{
+  "profiles": {
+    "user-requester-1": {
+      "id": "user-requester-1",
+      "personnel_no": "EMP1001",
+      "name": "Requester One",
+      "email": "requester@example.com",
+      "department": "Operations",
+      "designation": "Engineer",
+      "mobile_no": "9999999999",
+      "role": "requester",
+      "manager_id": null,
+      "is_active": true,
+      "password": "password123"
+    },
+    "user-admin-1": {
+      "id": "user-admin-1",
+      "personnel_no": "ADM1001",
+      "name": "Admin User",
+      "email": "admin@example.com",
+      "department": "Finance",
+      "designation": "Admin",
+      "mobile_no": "8888888888",
+      "role": "admin",
+      "manager_id": null,
+      "is_active": true,
+      "password": "admin123"
+    }
+  },
+  "bg_requests": {
+    "10249ab6-8fd1-4c7e-aba8-075b726e37ee": {
+      "id": "10249ab6-8fd1-4c7e-aba8-075b726e37ee",
+      "requester_id": "user-requester-1",
+      "department": "Operations",
+      "location": "Delhi",
+      "date_of_request": "2026-06-22",
+      "work_order_no": "WO-1001",
+      "type_of_work": "Civil Works",
+      "job_value": "250000",
+      "alternate_owner_id": "",
+      "party_name": "Acme Ltd",
+      "nature_of_bg": "Performance Bond",
+      "bg_amount": "500000",
+      "bg_expiry_date": "2027-06-22",
+      "bg_claim_period": "90 days",
+      "remarks": "Draft verification",
+      "approval_level": "MD",
+      "status": "Approved",
+      "admin_remarks": "Approved by test",
+      "decided_by": "user-admin-1",
+      "decision_at": "2026-06-22T12:44:29.163517",
+      "created_at": "2026-06-22T12:44:29.103565",
+      "updated_at": "2026-06-22T12:44:29.103570"
+    }
+  },
+  "attachments": {},
+  "activity": [
+    {
+      "id": "b7dc6ba4-0fa0-40d7-adac-beb10c934ba4",
+      "bg_request_id": "10249ab6-8fd1-4c7e-aba8-075b726e37ee",
+      "action_by": "user-admin-1",
+      "action": "Updated status",
+      "old_status": "Approved",
+      "new_status": "Approved",
+      "note": "Approved by test",
+      "created_at": "2026-06-22T12:44:29.164230"
+    }
+  ],
+  "settings": {
+    "md_threshold": 1500000,
+    "notify_email": true,
+    "notify_dashboard": true
+  }
+}

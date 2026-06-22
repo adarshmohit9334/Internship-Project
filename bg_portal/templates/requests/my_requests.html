@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}My Requests{% endblock %}
+{% block page_title %}My Requests{% endblock %}
+{% block content %}
+<section class="card-panel">
+    <div class="section-header-bar">Requests</div>
+    <table class="table"><thead><tr><th>BG ID</th><th>Work Order</th><th>Party Name</th><th>BG Amount</th><th>Approval Level</th><th>Status</th><th>Created On</th><th>Action</th></tr></thead><tbody>{% for row in requests %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.work_order_no }}</td><td>{{ row.party_name }}</td><td>?{{ row.bg_amount }}</td><td>{{ row.approval_level }}</td><td><span class="badge badge-{{ row.status|lower|replace(' ', '-') }}">{{ row.status }}</span></td><td>{{ row.created_at }}</td><td><a class="btn-sm btn-outline" href="{{ url_for('request.view_request', request_id=row.id) }}">View</a></td></tr>{% endfor %}</tbody></table>
+</section>
+{% endblock %}

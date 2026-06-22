@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}All Requests{% endblock %}
+{% block page_title %}All Requests{% endblock %}
+{% block content %}
+<section class="card-panel"><div class="section-header-bar">All BG Requests</div><table class="table"><thead><tr><th>ID</th><th>Requester</th><th>Department</th><th>Status</th><th>Approval</th><th>Decision</th></tr></thead><tbody>{% for row in requests %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.requester_id }}</td><td>{{ row.department }}</td><td><span class="badge badge-{{ row.status|lower|replace(' ', '-') }}">{{ row.status }}</span></td><td>{{ row.approval_level }}</td><td>{{ row.decision_at or '-' }}</td></tr>{% endfor %}</tbody></table></section>
+{% endblock %}

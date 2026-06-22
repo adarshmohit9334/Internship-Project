@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}New Request{% endblock %}
+{% block page_title %}New BG Request{% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    <div class="section-header-bar">Bank Guarantee Request</div>
+    <div class="approval-banner" id="approval-banner-md" style="display:none;">? MD Approval Required (BG Amount ? ?15,00,000)</div>
+    <div class="approval-banner" id="approval-banner-board" style="display:none;">? Board Approval Required (BG Amount > ?15,00,000)</div>
+    <div class="form-grid-2">
+        <div class="form-group"><label>Department</label><input name="department" value="{{ profile.department }}"></div>
+        <div class="form-group"><label>Location</label><input name="location" value="{{ profile.department }}"></div>
+        <div class="form-group"><label>Date of Request</label><input type="date" name="date_of_request" value="{{ today }}" readonly></div>
+        <div class="form-group"><label>Work Order No.</label><input name="work_order_no"></div>
+        <div class="form-group"><label>Type of Work</label><input name="type_of_work"></div>
+        <div class="form-group"><label>Job Value ?</label><input type="number" step="0.01" name="job_value"></div>
+        <div class="form-group"><label>First Owner / Requester Name</label><input value="{{ profile.name }}" readonly></div>
+        <div class="form-group"><label>Alternate Owner / Superior</label><select name="alternate_owner_id"><option value="">Select</option>{% for alt in alternatives %}<option value="{{ alt.id }}">{{ alt.name }} ({{ alt.designation }})</option>{% endfor %}</select></div>
+        <div class="form-group"><label>Party Name</label><input name="party_name"></div>
+        <div class="form-group"><label>Nature of BG</label><select name="nature_of_bg"><option>Performance</option><option>Advance</option><option>Financial</option><option>Bid Bond</option></select></div>
+        <div class="form-group"><label>BG Amount ?</label><input type="number" step="0.01" name="bg_amount" id="bg_amount"></div>
+        <div class="form-group"><label>BG Expiry Date</label><input type="date" name="bg_expiry_date"></div>
+        <div class="form-group"><label>BG Claim Period</label><input name="bg_claim_period"></div>
+    </div>
+    <div class="form-group"><label>Remarks</label><textarea name="remarks" rows="4"></textarea></div>
+    <div class="section-header-bar">Mandatory Attachments</div>
+    <div class="form-grid-2">
+        <div class="form-group"><label>BG Vetted Draft</label><input type="file" name="bg_vetted_draft" required></div>
+        <div class="form-group"><label>MD Approval</label><input type="file" name="md_approval" id="md_approval_file"></div>
+        <div class="form-group"><label>Board Approval</label><input type="file" name="board_approval" id="board_approval_file"></div>
+        <div class="form-group"><label>Beneficiary Advertisement / Clause</label><input type="file" name="beneficiary_clause" required></div>
+        <div class="form-group"><label>Beneficiary Bank Account Details</label><input type="file" name="bank_account_details" required></div>
+    </div>
+    <div class="form-actions"><button type="submit" formaction="{{ url_for('request.save_draft') }}" class="btn-draft">Save as Draft</button><button type="submit" formaction="{{ url_for('request.submit_request') }}" class="btn-primary">Submit</button></div>
+</form>
+{% endblock %}

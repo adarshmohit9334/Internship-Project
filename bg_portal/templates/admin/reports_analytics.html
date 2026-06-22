@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block title %}Reports & Analytics{% endblock %}
+{% block page_title %}Reports{% endblock %}
+{% block content %}
+<div class="stats-row"><div class="stat-card"><div class="label">Total Requests</div><div class="number">{{ requests|length }}</div><div class="accent-bar"></div></div><div class="stat-card"><div class="label">Total BG Amount</div><div class="number">₹{{ total_bg_amount }}</div><div class="accent-bar"></div></div></div>
+<div class="chart-row"><canvas id="barChart"></canvas><canvas id="pieChart"></canvas></div>
+<section class="card-panel"><div class="section-header-bar">Filtered Results</div><table class="table"><thead><tr><th>ID</th><th>Party</th><th>Department</th><th>Status</th><th>Approval</th></tr></thead><tbody>{% for row in requests %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.party_name }}</td><td>{{ row.department }}</td><td>{{ row.status }}</td><td>{{ row.approval_level }}</td></tr>{% endfor %}</tbody></table></section>
+{% endblock %}

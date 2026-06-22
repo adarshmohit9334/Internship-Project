@@ -1,0 +1,4 @@
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; }
+.modal-box { background: white; border-radius: 6px; padding: 24px; width: 440px; max-width: 90vw; }
+.modal-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }

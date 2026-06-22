@@ -1,0 +1,8 @@
+button, .btn { padding: 8px 20px; border-radius: 4px; font-weight: 600; cursor: pointer; border: none; }
+.btn-primary { background: var(--navy); color: white; }
+.btn-approve { background: var(--green); color: white; }
+.btn-reject { background: var(--red); color: white; }
+.btn-draft { background: var(--mustard); color: #1F2937; }
+.btn-outline { background: transparent; border: 2px solid var(--navy); color: var(--navy); }
+.btn-sm { padding: 5px 12px; font-size: 13px; }
+button:hover, .btn:hover { filter: brightness(0.9); }
