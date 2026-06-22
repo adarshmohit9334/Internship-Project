@@ -53,7 +53,7 @@ def update_status(request_id):
     req = store.get_request(request_id)
     if not req:
         flash('Request not found.', 'error')
-        return redirect(url_for('admin.pending'))
+        return redirect(url_for('approval.pending'))
     new_status = request.form.get('new_status')
     req['status'] = new_status
     req['admin_remarks'] = request.form.get('admin_remarks', '')
@@ -71,7 +71,7 @@ def update_status(request_id):
         'created_at': datetime.utcnow().isoformat(),
     })
     flash('Status updated.', 'success')
-    return redirect(url_for('admin.pending'))
+    return redirect(url_for('approval.pending'))
 
 @admin_bp.route('/admin/user/<user_id>/update-role', methods=['POST'])
 @admin_required

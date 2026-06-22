@@ -1,14 +1,160 @@
-{% extends 'base.html' %}
-{% block title %}Login{% endblock %}
-{% block page_title %}Login{% endblock %}
-{% block content %}
-<div class="auth-card">
-    <h2>Welcome back</h2>
-    <form method="post">
-        <div class="form-group"><label for="personnel_no">Personnel No.</label><input type="text" id="personnel_no" name="personnel_no" required></div>
-        <div class="form-group"><label for="password">Password</label><input type="password" id="password" name="password" required></div>
-        <button type="submit" class="btn-primary">Login</button>
-        <p class="auth-link"><a href="{{ url_for('auth.signup_step1') }}">Create account</a></p>
-    </form>
-</div>
-{% endblock %}
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Login | BankPort Terminal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "primary": "#001256",
+                "on-primary": "#ffffff",
+                "primary-container": "#1b2a6b",
+                "on-primary-container": "#8694db",
+                "secondary": "#835400",
+                "on-secondary": "#ffffff",
+                "surface": "#f8f9fa",
+                "on-surface": "#191c1d",
+                "on-surface-variant": "#454650",
+                "outline": "#767681",
+                "outline-variant": "#c6c5d2",
+                "background": "#f8f9fa",
+                "error": "#ba1a1a",
+                "error-container": "#ffdad6",
+            },
+            "fontFamily": {
+                "body-md": ["Libre Franklin"],
+                "h1": ["Libre Franklin"],
+                "h2": ["Libre Franklin"],
+                "label-bold": ["Libre Franklin"]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Libre Franklin', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .login-input {
+            border: 1px solid #D1D5DB;
+            border-radius: 4px;
+            transition: border-color 0.15s ease-in-out;
+        }
+        .login-input:focus {
+            border-color: #1b2a6b;
+            outline: none;
+            box-shadow: inset 0 0 0 1px rgba(27, 42, 107, 0.1);
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex items-stretch overflow-hidden">
+    <!-- Left Panel: Brand Anchor -->
+    <div class="hidden md:flex md:w-1/2 bg-primary-container items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+        <div class="z-10 text-center px-8 max-w-md">
+            <div class="mb-6 flex justify-center">
+                <span class="material-symbols-outlined text-[80px] text-on-primary" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
+            </div>
+            <h1 class="font-h1 text-2xl text-on-primary font-bold mb-2 tracking-tight">BankPort Bank Guarantee Portal</h1>
+            <p class="font-body-md text-sm text-on-primary-container opacity-90 leading-relaxed">
+                Manage your Bank Guarantee requests, all in one place.
+            </p>
+            <div class="mt-12 pt-8 border-t border-on-primary-container/20">
+                <div class="flex items-center justify-center space-x-6">
+                    <div class="flex flex-col items-center">
+                        <span class="material-symbols-outlined text-on-primary-container mb-2" data-icon="gavel">gavel</span>
+                        <span class="text-[11px] font-label-bold text-on-primary-container uppercase tracking-wider">Compliance</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="material-symbols-outlined text-on-primary-container mb-2" data-icon="analytics">analytics</span>
+                        <span class="text-[11px] font-label-bold text-on-primary-container uppercase tracking-wider">Analysis</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span class="material-symbols-outlined text-on-primary-container mb-2" data-icon="assignment">assignment</span>
+                        <span class="text-[11px] font-label-bold text-on-primary-container uppercase tracking-wider">Reporting</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Panel: Transactional Form -->
+    <div class="w-full md:w-1/2 bg-white flex items-center justify-center p-8">
+        <div class="w-full max-w-[360px]">
+            <div class="mb-8">
+                <h2 class="font-h1 text-2xl text-primary font-bold mb-1">Login</h2>
+                <p class="font-body-md text-sm text-on-surface-variant">Access the BankPort Terminal dashboard.</p>
+            </div>
+
+            <!-- Flash Stack -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="space-y-2 mb-6">
+                        {% for category, message in messages %}
+                            <div class="p-3 border rounded text-xs {% if category == 'error' %}bg-error-container text-error border-error/20{% else %}bg-green-50 text-green-700 border-green-200{% endif %} flex justify-between items-center">
+                                <span>{{ message }}</span>
+                                <button onclick="this.parentElement.remove()" class="font-bold">x</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form class="space-y-6" id="loginForm" method="POST">
+                <!-- Personnel No. / Email -->
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="personnel_no">Personnel No. / Email</label>
+                    <input class="login-input h-10 px-3 font-input-text text-sm bg-white" id="personnel_no" name="personnel_no" placeholder="EMP1001 or email" required="" type="text"/>
+                </div>
+                <!-- Password -->
+                <div class="flex flex-col space-y-1 relative">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="password">Password</label>
+                    <div class="relative">
+                        <input class="login-input h-10 w-full pl-3 pr-10 font-input-text text-sm bg-white" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+                        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePasswordVisibility()" type="button">
+                            <span class="material-symbols-outlined text-[20px]" data-icon="visibility" id="eye_icon">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Submit Button -->
+                <button class="w-full h-11 bg-primary text-on-primary font-label-bold text-sm font-bold uppercase tracking-wide rounded hover:bg-opacity-90 active:scale-[0.98] transition-all duration-150 flex items-center justify-center" type="submit">
+                    Login
+                </button>
+            </form>
+
+            <!-- Secondary Action -->
+            <div class="mt-8 pt-6 border-t border-outline-variant text-center">
+                <p class="font-body-md text-sm text-on-surface-variant">
+                    New user? <a class="font-label-bold font-bold text-primary hover:underline" href="{{ url_for('auth.signup_step1') }}">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye_icon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.textContent = 'visibility_off';
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.textContent = 'visibility';
+            }
+        }
+    </script>
+</body>
+</html>

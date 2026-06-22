@@ -1,9 +1,77 @@
 {% extends 'base.html' %}
-{% block title %}My Requests{% endblock %}
-{% block page_title %}My Requests{% endblock %}
+{% block title %}My Requests | BankPort Terminal{% endblock %}
+{% block page_title %}My Applications{% endblock %}
 {% block content %}
-<section class="card-panel">
-    <div class="section-header-bar">Requests</div>
-    <table class="table"><thead><tr><th>BG ID</th><th>Work Order</th><th>Party Name</th><th>BG Amount</th><th>Approval Level</th><th>Status</th><th>Created On</th><th>Action</th></tr></thead><tbody>{% for row in requests %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.work_order_no }}</td><td>{{ row.party_name }}</td><td>?{{ row.bg_amount }}</td><td>{{ row.approval_level }}</td><td><span class="badge badge-{{ row.status|lower|replace(' ', '-') }}">{{ row.status }}</span></td><td>{{ row.created_at }}</td><td><a class="btn-sm btn-outline" href="{{ url_for('request.view_request', request_id=row.id) }}">View</a></td></tr>{% endfor %}</tbody></table>
+
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-6">
+    <div>
+        <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Your Bank Guarantee Applications</h2>
+        <p class="text-on-surface-variant text-sm">View details, drafts, and approval history of your applications.</p>
+    </div>
+    <div class="flex gap-2">
+        <a href="{{ url_for('request.new_request') }}" class="px-4 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-opacity-95 transition-all">
+            <span class="material-symbols-outlined text-[18px]" data-icon="add">add</span> New Request
+        </a>
+    </div>
+</div>
+
+<!-- Data Table Section -->
+<section class="bg-white border border-outline-variant overflow-hidden">
+    <div class="bg-primary px-4 py-2 flex justify-between items-center">
+        <h2 class="text-white font-bold text-sm">All Guarantee Requests</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="table-teal-header text-white font-bold text-[13px] border-b border-outline-variant">
+                    <th class="px-4 py-3 border-r border-white/20">BG ID</th>
+                    <th class="px-4 py-3 border-r border-white/20">Work Order</th>
+                    <th class="px-4 py-3 border-r border-white/20">Party Name</th>
+                    <th class="px-4 py-3 border-r border-white/20">BG Amount</th>
+                    <th class="px-4 py-3 border-r border-white/20">Level</th>
+                    <th class="px-4 py-3 border-r border-white/20">Created Date</th>
+                    <th class="px-4 py-3 border-r border-white/20">Status</th>
+                    <th class="px-4 py-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm font-table-data text-on-surface">
+                {% if requests %}
+                    {% for row in requests %}
+                        <tr class="hover:bg-primary-container/5 transition-colors border-b border-outline-variant {% if loop.index0 % 2 == 1 %}bg-surface-container-low{% endif %}">
+                            <td class="px-4 py-2.5 font-bold border-r border-outline-variant">
+                                <a href="{{ url_for('request.view_request', request_id=row.id) }}" class="text-primary hover:underline">{{ row.id[:8] }}</a>
+                            </td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.work_order_no }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.party_name }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">₹{{ "{:,.2f}".format(row.bg_amount|float) }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.approval_level }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.created_at[:10] }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">
+                                {% if row.status == 'Approved' %}
+                                    <span class="px-2 py-0.5 bg-green-600 text-white text-[11px] font-bold rounded-sm uppercase">Approved</span>
+                                {% elif row.status == 'Pending' %}
+                                    <span class="px-2 py-0.5 bg-secondary text-white text-[11px] font-bold rounded-sm uppercase">Pending</span>
+                                {% elif row.status == 'Draft' %}
+                                    <span class="px-2 py-0.5 bg-gray-500 text-white text-[11px] font-bold rounded-sm uppercase">Draft</span>
+                                {% else %}
+                                    <span class="px-2 py-0.5 bg-error text-white text-[11px] font-bold rounded-sm uppercase">{{ row.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-2.5">
+                                <a href="{{ url_for('request.view_request', request_id=row.id) }}" class="px-3 py-1 bg-surface-container border border-outline-variant text-xs font-bold text-primary hover:bg-opacity-90 transition-all rounded">View</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="px-4 py-8 text-center text-on-surface-variant bg-surface-container-lowest">
+                            No guarantee requests found. <a href="{{ url_for('request.new_request') }}" class="text-primary hover:underline font-bold">Create one now</a>.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 </section>
 {% endblock %}

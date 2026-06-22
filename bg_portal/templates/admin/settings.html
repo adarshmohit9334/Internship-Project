@@ -1,6 +1,55 @@
 {% extends 'base.html' %}
-{% block title %}Settings{% endblock %}
-{% block page_title %}Settings{% endblock %}
+{% block title %}Settings | BankPort Terminal{% endblock %}
+{% block page_title %}System Configuration{% endblock %}
 {% block content %}
-<div class="card-panel"><div class="section-header-bar">Portal Settings</div><form method="post" action="{{ url_for('settings.save_settings') }}"><div class="form-group"><label>MD Approval Threshold</label><input name="md_threshold" value="{{ settings.md_threshold }}"></div><div class="form-group"><label><input type="checkbox" name="notify_email" {% if settings.notify_email %}checked{% endif %}> Email notifications</label></div><div class="form-group"><label><input type="checkbox" name="notify_dashboard" {% if settings.notify_dashboard %}checked{% endif %}> Dashboard notifications</label></div><button class="btn-primary">Save Settings</button></form></div>
+
+<!-- Page Header -->
+<div class="mb-6">
+    <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Portal Configuration Settings</h2>
+    <p class="text-on-surface-variant text-sm">Control limits for managing authority and toggle notifications.</p>
+</div>
+
+<div class="max-w-[600px] bg-white border border-outline-variant p-6 space-y-6">
+    <div class="border-b border-outline-variant pb-2">
+        <h3 class="text-primary font-bold text-sm uppercase tracking-wider">Operational parameters</h3>
+    </div>
+
+    <form method="POST" action="{{ url_for('settings.save_settings') }}" class="space-y-6">
+        <!-- MD Threshold -->
+        <div class="flex flex-col space-y-1">
+            <label class="font-label-bold text-xs font-bold text-on-surface" for="md_threshold">MD Approval Threshold Limit (₹)</label>
+            <input class="signup-input h-10 px-3 text-sm bg-white" id="md_threshold" name="md_threshold" value="{{ settings.md_threshold }}" required type="number"/>
+            <span class="text-[11px] text-on-surface-variant">Amounts above this limit will require Board Level approval.</span>
+        </div>
+
+        <div class="border-t border-outline-variant pt-4 space-y-4">
+            <h4 class="text-xs font-bold text-primary uppercase tracking-wider">Alert Notifications</h4>
+            
+            <!-- Email Notifications checkbox -->
+            <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" name="notify_email" class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" {% if settings.notify_email %}checked{% endif %}>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-on-surface">Email Notifications</span>
+                    <span class="text-[11px] text-on-surface-variant">Send email confirmations upon application creation and decision actions.</span>
+                </div>
+            </label>
+
+            <!-- Dashboard Notifications checkbox -->
+            <label class="flex items-center gap-3 cursor-pointer">
+                <input type="checkbox" name="notify_dashboard" class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4" {% if settings.notify_dashboard %}checked{% endif %}>
+                <div class="flex flex-col">
+                    <span class="text-sm font-bold text-on-surface">Dashboard Activity Feed Logs</span>
+                    <span class="text-[11px] text-on-surface-variant">Record operational audits to the system activity log feed.</span>
+                </div>
+            </label>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-end pt-4 border-t border-outline-variant">
+            <button type="submit" class="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">
+                Save Settings
+            </button>
+        </div>
+    </form>
+</div>
 {% endblock %}

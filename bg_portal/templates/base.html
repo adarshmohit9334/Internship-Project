@@ -1,82 +1,248 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}BG Portal{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/buttons.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/modals.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/approval_toggle.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/confirm_modal.js') }}" defer></script>
-    <script src="{{ url_for('static', filename='js/charts.js') }}" defer></script>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}BankPort Terminal{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "tertiary": "#001256",
+                "surface-bright": "#f8f9fa",
+                "inverse-surface": "#2e3132",
+                "on-tertiary-fixed": "#001257",
+                "on-secondary-fixed-variant": "#643f00",
+                "on-primary-container": "#8694db",
+                "error-container": "#ffdad6",
+                "on-background": "#191c1d",
+                "background": "#f8f9fa",
+                "on-error-container": "#93000a",
+                "on-secondary-container": "#714800",
+                "on-tertiary-container": "#7990ff",
+                "surface-container-lowest": "#ffffff",
+                "on-surface-variant": "#454650",
+                "surface-dim": "#d9dadb",
+                "outline-variant": "#c6c5d2",
+                "surface-variant": "#e1e3e4",
+                "on-tertiary": "#ffffff",
+                "tertiary-container": "#002289",
+                "surface-container-high": "#e7e8e9",
+                "inverse-primary": "#b9c3ff",
+                "secondary-container": "#feb64e",
+                "secondary-fixed": "#ffddb5",
+                "secondary": "#835400",
+                "outline": "#767681",
+                "primary-container": "#1b2a6b",
+                "surface-tint": "#4c5a9d",
+                "on-primary-fixed": "#001257",
+                "surface-container-highest": "#e1e3e4",
+                "error": "#ba1a1a",
+                "on-surface": "#191c1d",
+                "on-error": "#ffffff",
+                "primary": "#001256",
+                "on-primary": "#ffffff",
+                "inverse-on-surface": "#f0f1f2",
+                "primary-fixed": "#dde1ff",
+                "primary-fixed-dim": "#b9c3ff",
+                "surface-container": "#edeeef",
+                "surface": "#f8f9fa",
+                "tertiary-fixed": "#dde1ff",
+                "surface-container-low": "#f3f4f5",
+                "secondary-fixed-dim": "#ffb956",
+                "on-secondary": "#ffffff",
+                "on-primary-fixed-variant": "#344283",
+                "on-secondary-fixed": "#2a1800",
+                "on-tertiary-fixed-variant": "#1c3aac",
+                "tertiary-fixed-dim": "#b9c3ff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "spacing": {
+                "sidebar_width": "220px",
+                "data_density_sm": "8px",
+                "topbar_height": "56px",
+                "container_padding": "24px",
+                "element_gap": "16px",
+                "grid_gutter": "16px"
+            },
+            "fontFamily": {
+                "body-md": ["Libre Franklin"],
+                "h2": ["Libre Franklin"],
+                "label-bold": ["Libre Franklin"],
+                "sidebar-nav": ["Libre Franklin"],
+                "table-data": ["Libre Franklin"],
+                "h1": ["Libre Franklin"],
+                "input-text": ["Libre Franklin"]
+            },
+            "fontSize": {
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "h2": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                "label-bold": ["13px", {"lineHeight": "16px", "fontWeight": "700"}],
+                "sidebar-nav": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                "table-data": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
+                "h1": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "input-text": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Libre Franklin', sans-serif; background-color: #f8f9fa; }
+        .table-teal-header { background-color: #7FA8A6; }
+        .sidebar-active { background-color: #1b2a6b; border-left: 4px solid #ffffff; font-weight: bold; opacity: 1; }
+        .card-shadow { box-shadow: 0 0 0 1px #D1D5DB; }
+    </style>
 </head>
-<body>
-    <div class="app-shell">
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <div class="logo-badge">BG</div>
-                <div>
-                    <h3>BG Portal</h3>
-                    <p>Guarantee Management</p>
+<body class="text-on-surface overflow-x-hidden">
+
+    <!-- Side Navigation Shell -->
+    <aside class="fixed left-0 top-0 h-full w-[220px] bg-primary flex flex-col border-r border-outline-variant z-50">
+        <div class="px-6 py-8">
+            <div class="flex items-center gap-3 mb-8">
+                <span class="material-symbols-outlined text-on-primary text-3xl" style="font-variation-settings: 'FILL' 1;">security</span>
+                <div class="flex flex-col">
+                    <span class="text-h2 font-h2 text-on-primary font-bold tracking-tight leading-none">BankPort</span>
+                    <span class="text-[10px] text-on-primary/60 uppercase tracking-widest font-bold">Guarantee System</span>
                 </div>
             </div>
-            <nav>
+            <nav class="space-y-1">
                 {% set user = session.get('user') %}
                 {% if user and user.role == 'admin' %}
-                    <a href="{{ url_for('admin.dashboard') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.dashboard' else '' }}"><span>?</span><span>Dashboard</span></a>
-                    <a href="{{ url_for('admin.all_requests') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.all_requests' else '' }}"><span>?</span><span>All Requests</span></a>
-                    <a href="{{ url_for('approval.pending') }}" class="nav-item {{ 'active' if request.endpoint == 'approval.pending' else '' }}"><span>?</span><span>Pending</span></a>
-                    <a href="{{ url_for('admin.approved') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.approved' else '' }}"><span>?</span><span>Approved</span></a>
-                    <a href="{{ url_for('admin.rejected') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.rejected' else '' }}"><span>?</span><span>Rejected</span></a>
-                    <a href="{{ url_for('admin.users') }}" class="nav-item {{ 'active' if request.endpoint == 'admin.users' else '' }}"><span>??</span><span>User Management</span></a>
-                    <a href="{{ url_for('report.reports') }}" class="nav-item {{ 'active' if request.endpoint == 'report.reports' else '' }}"><span>??</span><span>Reports</span></a>
-                    <a href="{{ url_for('settings.settings') }}" class="nav-item {{ 'active' if request.endpoint == 'settings.settings' else '' }}"><span>?</span><span>Settings</span></a>
+                    <!-- Admin Views -->
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'admin.dashboard' else '' }}" href="{{ url_for('admin.dashboard') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Dashboard</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'admin.all_requests' else '' }}" href="{{ url_for('admin.all_requests') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="assignment">assignment</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">All Requests</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'approval.pending' else '' }}" href="{{ url_for('approval.pending') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="pending_actions">pending_actions</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Pending</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'admin.approved' else '' }}" href="{{ url_for('admin.approved') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="verified_user">verified_user</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Approved</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'admin.rejected' else '' }}" href="{{ url_for('admin.rejected') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="block">block</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Rejected</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'admin.users' else '' }}" href="{{ url_for('admin.users') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="group">group</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Users</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'report.reports' else '' }}" href="{{ url_for('report.reports') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="analytics">analytics</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Reports</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'settings.settings' else '' }}" href="{{ url_for('settings.settings') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="settings">settings</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Settings</span>
+                    </a>
                 {% else %}
-                    <a href="{{ url_for('dashboard.home') }}" class="nav-item {{ 'active' if request.endpoint == 'dashboard.home' else '' }}"><span>?</span><span>Dashboard</span></a>
-                    <a href="{{ url_for('request.new_request') }}" class="nav-item {{ 'active' if request.endpoint == 'request.new_request' else '' }}"><span>?</span><span>New Request</span></a>
-                    <a href="{{ url_for('request.my_requests') }}" class="nav-item {{ 'active' if request.endpoint == 'request.my_requests' else '' }}"><span>??</span><span>My Requests</span></a>
+                    <!-- Requester Views -->
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'dashboard.home' else '' }}" href="{{ url_for('dashboard.home') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="dashboard">dashboard</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Dashboard</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'request.new_request' else '' }}" href="{{ url_for('request.new_request') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="security">security</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">New Request</span>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'request.my_requests' else '' }}" href="{{ url_for('request.my_requests') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="assignment">assignment</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">My Requests</span>
+                    </a>
                 {% endif %}
             </nav>
-        </aside>
-        <div class="main-panel">
-            <header class="top-bar">
-                <div class="top-bar-left">
-                    <button class="hamburger" aria-label="Toggle sidebar">?</button>
-                    <h2>{% block page_title %}Portal{% endblock %}</h2>
-                </div>
-                <div class="top-bar-center">
-                    <input type="search" placeholder="Search application or party name">
-                </div>
-                <div class="top-bar-right">
-                    {% if session.get('user') %}
-                        <a href="#">Change Password</a>
-                        <a href="{{ url_for('auth.logout') }}">Log Out</a>
-                    {% else %}
-                        <a href="{{ url_for('auth.login') }}">Login</a>
-                    {% endif %}
-                </div>
-            </header>
-            <main class="content-area">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        <div class="flash-stack">
-                            {% for category, message in messages %}
-                                <div class="flash flash-{{ category }}">{{ message }}</div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
-                {% endwith %}
-                {% block content %}{% endblock %}
-            </main>
         </div>
-    </div>
-    {% include 'components/confirm_modal.html' %}
+        <div class="mt-auto px-6 py-6 border-t border-on-primary/10">
+            {% if not (user and user.role == 'admin') %}
+                <a href="{{ url_for('request.new_request') }}" class="block text-center w-full py-2 bg-secondary text-on-secondary font-bold text-sm rounded mb-6 hover:brightness-110 transition-all uppercase tracking-wide">
+                    New Application
+                </a>
+            {% endif %}
+            <div class="space-y-4">
+                <a class="flex items-center gap-3 text-on-primary/60 hover:text-on-primary text-sm transition-colors" href="#">
+                    <span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
+                    <span>Support</span>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Top Navigation Bar -->
+    <header class="fixed top-0 right-0 h-[56px] w-[calc(100%-220px)] bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center px-container_padding z-40">
+        <div class="flex items-center gap-6">
+            <div class="relative group">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]" data-icon="search">search</span>
+                <input class="pl-10 pr-4 py-1.5 w-80 bg-surface-container text-input-text border border-outline-variant focus:border-primary focus:ring-0 outline-none rounded-sm transition-all" placeholder="Search guarantees, clients, or audits..." type="text"/>
+            </div>
+            <div class="h-6 w-[1px] bg-outline-variant"></div>
+            <h2 class="text-primary font-bold text-body-md py-4">{% block page_title %}Terminal Operations{% endblock %}</h2>
+        </div>
+        <div class="flex items-center gap-4">
+            {% if session.get('user') %}
+                <div class="flex items-center gap-3 bg-surface-container-low px-3 py-1 rounded border border-outline-variant">
+                    <span class="text-on-surface font-label-bold text-sm">👤 {{ session['user']['name'] }} ({% if session['user']['personnel_no'] %}{{ session['user']['personnel_no'] }}{% else %}ID: {{ session['user']['id'][:6] }}{% endif %})</span>
+                    <div class="h-4 w-[1px] bg-outline-variant"></div>
+                    <a href="{{ url_for('auth.logout') }}" class="text-error font-label-bold text-sm hover:underline">Logout</a>
+                </div>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="px-4 py-1.5 bg-primary text-on-primary text-sm font-label-bold rounded hover:bg-opacity-90">Login</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- Main Content Canvas -->
+    <main class="ml-[220px] pt-[56px] min-h-screen">
+        <div class="p-container_padding space-y-6">
+            <!-- Flash Alerts Stack -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="space-y-2 mb-4">
+                        {% for category, message in messages %}
+                            {% set bg_color = 'bg-error-container text-error border-error/20' if category == 'error' else 'bg-green-50 text-green-700 border-green-200' %}
+                            <div class="p-4 border rounded {{ bg_color }} flex items-center justify-between text-sm">
+                                <span>{{ message }}</span>
+                                <button onclick="this.parentElement.remove()" class="text-xs font-bold hover:opacity-80">Dismiss</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <script>
+        // Simple search highlighting effect
+        const searchInput = document.querySelector('input[type="text"]');
+        if (searchInput) {
+            searchInput.addEventListener('focus', () => {
+                searchInput.parentElement.classList.add('ring-2', 'ring-primary/20');
+            });
+            searchInput.addEventListener('blur', () => {
+                searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
+            });
+        }
+    </script>
 </body>
 </html>

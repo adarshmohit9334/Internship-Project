@@ -134,7 +134,7 @@ def my_requests():
 def view_request(request_id):
     store = current_app.extensions['demo_store']
     request_data = store.get_request(request_id)
-    attachments = [a for a in store.data['attachments'].values() if a.get('bg_request_id') == request_id]
+    attachments = store.get_attachments(request_id)
     if request_data is None:
         return render_template('404.html'), 404
     for att in attachments:

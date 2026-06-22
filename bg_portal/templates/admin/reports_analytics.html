@@ -1,8 +1,104 @@
 {% extends 'base.html' %}
-{% block title %}Reports & Analytics{% endblock %}
-{% block page_title %}Reports{% endblock %}
+{% block title %}Reports & Analytics | BankPort Terminal{% endblock %}
+{% block page_title %}Operational Reports{% endblock %}
 {% block content %}
-<div class="stats-row"><div class="stat-card"><div class="label">Total Requests</div><div class="number">{{ requests|length }}</div><div class="accent-bar"></div></div><div class="stat-card"><div class="label">Total BG Amount</div><div class="number">₹{{ total_bg_amount }}</div><div class="accent-bar"></div></div></div>
-<div class="chart-row"><canvas id="barChart"></canvas><canvas id="pieChart"></canvas></div>
-<section class="card-panel"><div class="section-header-bar">Filtered Results</div><table class="table"><thead><tr><th>ID</th><th>Party</th><th>Department</th><th>Status</th><th>Approval</th></tr></thead><tbody>{% for row in requests %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.party_name }}</td><td>{{ row.department }}</td><td>{{ row.status }}</td><td>{{ row.approval_level }}</td></tr>{% endfor %}</tbody></table></section>
+
+<!-- Page Header -->
+<div class="mb-6">
+    <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">System Statistics & Reports</h2>
+    <p class="text-on-surface-variant text-sm">Visual analysis of outstanding bank guarantees and exposure values.</p>
+</div>
+
+<!-- Statistics Bento Grid -->
+<div class="grid grid-cols-2 gap-6 mb-8">
+    <div class="bg-white border border-outline-variant p-4 relative overflow-hidden">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Total Applications</p>
+                <h3 class="text-3xl font-bold text-primary mt-1">{{ requests|length }}</h3>
+            </div>
+            <span class="material-symbols-outlined text-primary/20 text-4xl" data-icon="assignment">assignment</span>
+        </div>
+        <div class="absolute bottom-0 left-0 h-1 w-full bg-primary/10"></div>
+    </div>
+    <div class="bg-white border border-outline-variant p-4 relative overflow-hidden">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Total Exposure Value</p>
+                <h3 class="text-3xl font-bold text-secondary mt-1">₹{{ "{:,.2f}".format(total_bg_amount|float) }}</h3>
+            </div>
+            <span class="material-symbols-outlined text-secondary/20 text-4xl" data-icon="account_balance">account_balance</span>
+        </div>
+        <div class="absolute bottom-0 left-0 h-1 w-full bg-secondary/10"></div>
+    </div>
+</div>
+
+<!-- Charts Row -->
+<div class="grid grid-cols-2 gap-6 mb-8">
+    <div class="bg-white border border-outline-variant p-4">
+        <h4 class="font-bold text-primary mb-4 text-sm uppercase tracking-wider">Applications by Status</h4>
+        <div class="h-64 flex items-center justify-center">
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+    <div class="bg-white border border-outline-variant p-4">
+        <h4 class="font-bold text-primary mb-4 text-sm uppercase tracking-wider">Departmental Exposure</h4>
+        <div class="h-64 flex items-center justify-center">
+            <canvas id="pieChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Data Table Section -->
+<section class="bg-white border border-outline-variant overflow-hidden">
+    <div class="bg-primary px-4 py-2 flex justify-between items-center">
+        <h2 class="text-white font-bold text-sm">Filtered Results</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="table-teal-header text-white font-bold text-[13px] border-b border-outline-variant">
+                    <th class="px-4 py-3 border-r border-white/20">BG ID</th>
+                    <th class="px-4 py-3 border-r border-white/20">Party Name</th>
+                    <th class="px-4 py-3 border-r border-white/20">Department</th>
+                    <th class="px-4 py-3 border-r border-white/20">BG Amount</th>
+                    <th class="px-4 py-3 border-r border-white/20">Level</th>
+                    <th class="px-4 py-3 border-r border-white/20">Status</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm font-table-data text-on-surface">
+                {% if requests %}
+                    {% for row in requests %}
+                        <tr class="hover:bg-primary-container/5 transition-colors border-b border-outline-variant {% if loop.index0 % 2 == 1 %}bg-surface-container-low{% endif %}">
+                            <td class="px-4 py-2.5 font-bold border-r border-outline-variant">
+                                <a href="{{ url_for('request.view_request', request_id=row.id) }}" class="text-primary hover:underline">{{ row.id[:8] }}</a>
+                            </td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.party_name or 'N/A' }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.department }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">₹{{ "{:,.2f}".format(row.bg_amount|float) }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.approval_level }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">
+                                {% if row.status == 'Approved' %}
+                                    <span class="px-2 py-0.5 bg-green-600 text-white text-[11px] font-bold rounded-sm uppercase">Approved</span>
+                                {% elif row.status == 'Pending' %}
+                                    <span class="px-2 py-0.5 bg-secondary text-white text-[11px] font-bold rounded-sm uppercase">Pending</span>
+                                {% elif row.status == 'Draft' %}
+                                    <span class="px-2 py-0.5 bg-gray-500 text-white text-[11px] font-bold rounded-sm uppercase">Draft</span>
+                                {% else %}
+                                    <span class="px-2 py-0.5 bg-error text-white text-[11px] font-bold rounded-sm uppercase">{{ row.status }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="px-4 py-8 text-center text-on-surface-variant bg-surface-container-lowest">
+                            No statistics to display.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}

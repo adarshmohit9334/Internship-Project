@@ -1,35 +1,199 @@
 {% extends 'base.html' %}
-{% block title %}New Request{% endblock %}
-{% block page_title %}New BG Request{% endblock %}
+{% block title %}New BG Request | BankPort Terminal{% endblock %}
+{% block page_title %}New Guarantee Application{% endblock %}
 {% block content %}
-<form method="post" enctype="multipart/form-data">
-    <div class="section-header-bar">Bank Guarantee Request</div>
-    <div class="approval-banner" id="approval-banner-md" style="display:none;">? MD Approval Required (BG Amount ? ?15,00,000)</div>
-    <div class="approval-banner" id="approval-banner-board" style="display:none;">? Board Approval Required (BG Amount > ?15,00,000)</div>
-    <div class="form-grid-2">
-        <div class="form-group"><label>Department</label><input name="department" value="{{ profile.department }}"></div>
-        <div class="form-group"><label>Location</label><input name="location" value="{{ profile.department }}"></div>
-        <div class="form-group"><label>Date of Request</label><input type="date" name="date_of_request" value="{{ today }}" readonly></div>
-        <div class="form-group"><label>Work Order No.</label><input name="work_order_no"></div>
-        <div class="form-group"><label>Type of Work</label><input name="type_of_work"></div>
-        <div class="form-group"><label>Job Value ?</label><input type="number" step="0.01" name="job_value"></div>
-        <div class="form-group"><label>First Owner / Requester Name</label><input value="{{ profile.name }}" readonly></div>
-        <div class="form-group"><label>Alternate Owner / Superior</label><select name="alternate_owner_id"><option value="">Select</option>{% for alt in alternatives %}<option value="{{ alt.id }}">{{ alt.name }} ({{ alt.designation }})</option>{% endfor %}</select></div>
-        <div class="form-group"><label>Party Name</label><input name="party_name"></div>
-        <div class="form-group"><label>Nature of BG</label><select name="nature_of_bg"><option>Performance</option><option>Advance</option><option>Financial</option><option>Bid Bond</option></select></div>
-        <div class="form-group"><label>BG Amount ?</label><input type="number" step="0.01" name="bg_amount" id="bg_amount"></div>
-        <div class="form-group"><label>BG Expiry Date</label><input type="date" name="bg_expiry_date"></div>
-        <div class="form-group"><label>BG Claim Period</label><input name="bg_claim_period"></div>
+
+<!-- Page Header -->
+<div class="mb-6">
+    <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Bank Guarantee Application Form</h2>
+    <p class="text-on-surface-variant text-sm">Please fill out all the mandatory fields and upload required files.</p>
+</div>
+
+<form method="POST" enctype="multipart/form-data" class="space-y-8 bg-white border border-outline-variant p-6">
+    
+    <!-- Approval Warning Banners -->
+    <div id="approval-banner-md" class="hidden p-4 border bg-amber-50 text-amber-700 border-amber-200 rounded flex items-center gap-2 text-sm font-bold">
+        <span class="material-symbols-outlined" data-icon="warning">warning</span>
+        <span>MD Approval Required (BG Amount <= ₹15,00,000)</span>
     </div>
-    <div class="form-group"><label>Remarks</label><textarea name="remarks" rows="4"></textarea></div>
-    <div class="section-header-bar">Mandatory Attachments</div>
-    <div class="form-grid-2">
-        <div class="form-group"><label>BG Vetted Draft</label><input type="file" name="bg_vetted_draft" required></div>
-        <div class="form-group"><label>MD Approval</label><input type="file" name="md_approval" id="md_approval_file"></div>
-        <div class="form-group"><label>Board Approval</label><input type="file" name="board_approval" id="board_approval_file"></div>
-        <div class="form-group"><label>Beneficiary Advertisement / Clause</label><input type="file" name="beneficiary_clause" required></div>
-        <div class="form-group"><label>Beneficiary Bank Account Details</label><input type="file" name="bank_account_details" required></div>
+    <div id="approval-banner-board" class="hidden p-4 border bg-amber-50 text-amber-700 border-amber-200 rounded flex items-center gap-2 text-sm font-bold">
+        <span class="material-symbols-outlined" data-icon="warning">warning</span>
+        <span>Board Approval Required (BG Amount > ₹15,00,000)</span>
     </div>
-    <div class="form-actions"><button type="submit" formaction="{{ url_for('request.save_draft') }}" class="btn-draft">Save as Draft</button><button type="submit" formaction="{{ url_for('request.submit_request') }}" class="btn-primary">Submit</button></div>
+
+    <!-- Section 1: Application Details -->
+    <div>
+        <div class="border-b border-outline-variant pb-2 mb-4">
+            <h3 class="text-primary font-bold text-sm uppercase tracking-wider">1. Application Details</h3>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-6">
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="department">Department</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="department" name="department" value="{{ profile.department or '' }}" required type="text"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="location">Location</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="location" name="location" value="{{ profile.location or '' }}" required type="text"/>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mt-4">
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="date_of_request">Date of Request</label>
+                <input class="signup-input h-10 px-3 text-sm bg-gray-50 text-on-surface-variant" id="date_of_request" name="date_of_request" value="{{ today }}" readonly type="date"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="work_order_no">Work Order No.</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="work_order_no" name="work_order_no" required type="text"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="type_of_work">Type of Work</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="type_of_work" name="type_of_work" required type="text"/>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mt-4">
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="job_value">Job Value (₹)</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="job_value" name="job_value" step="0.01" required type="number"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface">First Owner / Requester Name</label>
+                <input class="signup-input h-10 px-3 text-sm bg-gray-50 text-on-surface-variant" value="{{ profile.name }}" readonly type="text"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="alternate_owner_id">Alternate Owner / Superior</label>
+                <select class="signup-input h-10 px-3 text-sm bg-white" id="alternate_owner_id" name="alternate_owner_id">
+                    <option value="">Select Alternate Owner</option>
+                    {% for alt in alternatives %}
+                        <option value="{{ alt.id }}">{{ alt.name }} ({{ alt.designation }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Guarantee Specification -->
+    <div>
+        <div class="border-b border-outline-variant pb-2 mb-4">
+            <h3 class="text-primary font-bold text-sm uppercase tracking-wider">2. Guarantee Specification</h3>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="party_name">Party Name</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="party_name" name="party_name" required type="text"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="nature_of_bg">Nature of BG</label>
+                <select class="signup-input h-10 px-3 text-sm bg-white" id="nature_of_bg" name="nature_of_bg" required>
+                    <option value="Performance Bond">Performance Bond</option>
+                    <option value="Advance Payment Guarantee">Advance Payment Guarantee</option>
+                    <option value="Financial Guarantee">Financial Guarantee</option>
+                    <option value="Bid Bond">Bid Bond</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mt-4">
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="bg_amount">BG Amount (₹)</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="bg_amount" name="bg_amount" step="0.01" required type="number"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="bg_expiry_date">BG Expiry Date</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="bg_expiry_date" name="bg_expiry_date" required type="date"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="bg_claim_period">BG Claim Period</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white" id="bg_claim_period" name="bg_claim_period" placeholder="e.g. 12 months" required type="text"/>
+            </div>
+        </div>
+
+        <div class="flex flex-col space-y-1 mt-4">
+            <label class="font-label-bold text-xs font-bold text-on-surface" for="remarks">Remarks</label>
+            <textarea class="signup-input p-3 text-sm bg-white" id="remarks" name="remarks" rows="3" placeholder="Add optional details..."></textarea>
+        </div>
+    </div>
+
+    <!-- Section 3: Attachments -->
+    <div>
+        <div class="border-b border-outline-variant pb-2 mb-4">
+            <h3 class="text-primary font-bold text-sm uppercase tracking-wider">3. Mandatory Document Uploads</h3>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="bg_vetted_draft">BG Vetted Draft <span class="text-error">*</span></label>
+                <input class="signup-input p-1.5 text-xs bg-white" id="bg_vetted_draft" name="bg_vetted_draft" required type="file"/>
+            </div>
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="beneficiary_clause">Beneficiary Clause / Advertisement <span class="text-error">*</span></label>
+                <input class="signup-input p-1.5 text-xs bg-white" id="beneficiary_clause" name="beneficiary_clause" required type="file"/>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-6 mt-4">
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="bank_account_details">Bank Account Details <span class="text-error">*</span></label>
+                <input class="signup-input p-1.5 text-xs bg-white" id="bank_account_details" name="bank_account_details" required type="file"/>
+            </div>
+            <div class="flex flex-col space-y-1" id="md_approval_container">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="md_approval">MD Approval Document</label>
+                <input class="signup-input p-1.5 text-xs bg-white" id="md_approval" name="md_approval" type="file"/>
+            </div>
+            <div class="flex flex-col space-y-1" id="board_approval_container">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="board_approval">Board Approval Document</label>
+                <input class="signup-input p-1.5 text-xs bg-white" id="board_approval" name="board_approval" type="file"/>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-end gap-3 pt-4 border-t border-outline-variant">
+        <button type="submit" formaction="{{ url_for('request.save_draft') }}" class="px-6 py-2.5 bg-secondary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">
+            Save as Draft
+        </button>
+        <button type="submit" formaction="{{ url_for('request.submit_request') }}" class="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">
+            Submit Application
+        </button>
+    </div>
 </form>
+
+<script>
+    const bgAmountInput = document.getElementById('bg_amount');
+    const mdBanner = document.getElementById('approval-banner-md');
+    const boardBanner = document.getElementById('approval-banner-board');
+    const mdFile = document.getElementById('md_approval');
+    const boardFile = document.getElementById('board_approval');
+
+    const limit = 1500000; // Rs. 15,00,000 threshold
+
+    function updateApprovalBanners() {
+        const val = parseFloat(bgAmountInput.value) || 0;
+        if (val === 0) {
+            mdBanner.classList.add('hidden');
+            boardBanner.classList.add('hidden');
+            mdFile.removeAttribute('required');
+            boardFile.removeAttribute('required');
+            return;
+        }
+
+        if (val <= limit) {
+            mdBanner.classList.remove('hidden');
+            boardBanner.classList.add('hidden');
+            mdFile.setAttribute('required', 'required');
+            boardFile.removeAttribute('required');
+        } else {
+            mdBanner.classList.add('hidden');
+            boardBanner.classList.remove('hidden');
+            mdFile.removeAttribute('required');
+            boardFile.setAttribute('required', 'required');
+        }
+    }
+
+    bgAmountInput.addEventListener('input', updateApprovalBanners);
+    document.addEventListener('DOMContentLoaded', updateApprovalBanners);
+</script>
 {% endblock %}

@@ -1,6 +1,60 @@
 {% extends 'base.html' %}
-{% block title %}Rejected Requests{% endblock %}
-{% block page_title %}Rejected Requests{% endblock %}
+{% block title %}Rejected Requests | BankPort Terminal{% endblock %}
+{% block page_title %}Rejected Applications{% endblock %}
 {% block content %}
-<section class="card-panel"><div class="section-header-bar">Rejected BG Requests</div><table class="table"><thead><tr><th>ID</th><th>Party</th><th>Status</th></tr></thead><tbody>{% for row in requests %}<tr><td>{{ row.id[:8] }}</td><td>{{ row.party_name }}</td><td><span class="badge badge-rejected">{{ row.status }}</span></td></tr>{% endfor %}</tbody></table></section>
+
+<!-- Page Header -->
+<div class="mb-6">
+    <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Rejected Guarantees</h2>
+    <p class="text-on-surface-variant text-sm">Directory of all guarantee applications that have been rejected.</p>
+</div>
+
+<!-- Data Table Section -->
+<section class="bg-white border border-outline-variant overflow-hidden">
+    <div class="bg-primary px-4 py-2 flex justify-between items-center">
+        <h2 class="text-white font-bold text-sm">Rejected Guarantees</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="table-teal-header text-white font-bold text-[13px] border-b border-outline-variant">
+                    <th class="px-4 py-3 border-r border-white/20">BG ID</th>
+                    <th class="px-4 py-3 border-r border-white/20">Party Name</th>
+                    <th class="px-4 py-3 border-r border-white/20">Department</th>
+                    <th class="px-4 py-3 border-r border-white/20">BG Amount</th>
+                    <th class="px-4 py-3 border-r border-white/20">Level</th>
+                    <th class="px-4 py-3 border-r border-white/20">Status</th>
+                    <th class="px-4 py-3">Action</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm font-table-data text-on-surface">
+                {% if requests %}
+                    {% for row in requests %}
+                        <tr class="hover:bg-primary-container/5 transition-colors border-b border-outline-variant {% if loop.index0 % 2 == 1 %}bg-surface-container-low{% endif %}">
+                            <td class="px-4 py-2.5 font-bold border-r border-outline-variant">
+                                <a href="{{ url_for('request.view_request', request_id=row.id) }}" class="text-primary hover:underline">{{ row.id[:8] }}</a>
+                            </td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.party_name or 'N/A' }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.department }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">₹{{ "{:,.2f}".format(row.bg_amount|float) }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ row.approval_level }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">
+                                <span class="px-2 py-0.5 bg-error text-white text-[11px] font-bold rounded-sm uppercase">Rejected</span>
+                            </td>
+                            <td class="px-4 py-2.5">
+                                <a href="{{ url_for('request.view_request', request_id=row.id) }}" class="px-3 py-1 bg-surface-container border border-outline-variant text-xs font-bold text-primary hover:bg-opacity-90 transition-all rounded">Details</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="px-4 py-8 text-center text-on-surface-variant bg-surface-container-lowest">
+                            No rejected guarantee applications found.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}

@@ -1,19 +1,158 @@
 {% extends 'base.html' %}
-{% block title %}View Request{% endblock %}
-{% block page_title %}Request Details{% endblock %}
+{% block title %}Request Details | BankPort Terminal{% endblock %}
+{% block page_title %}Guarantee Details{% endblock %}
 {% block content %}
-<div class="card-panel">
-    <div class="section-header-bar">Request Details</div>
-    <div class="form-grid-2">
-        <div class="detail-item"><strong>Department:</strong> {{ request_data.department }}</div>
-        <div class="detail-item"><strong>Location:</strong> {{ request_data.location }}</div>
-        <div class="detail-item"><strong>Work Order:</strong> {{ request_data.work_order_no }}</div>
-        <div class="detail-item"><strong>Party:</strong> {{ request_data.party_name }}</div>
-        <div class="detail-item"><strong>BG Amount:</strong> ?{{ request_data.bg_amount }}</div>
-        <div class="detail-item"><strong>Approval Level:</strong> {{ request_data.approval_level }}</div>
-        <div class="detail-item"><strong>Status:</strong> <span class="badge badge-{{ request_data.status|lower|replace(' ', '-') }}">{{ request_data.status }}</span></div>
+
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-6">
+    <div>
+        <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Request Details</h2>
+        <p class="text-on-surface-variant text-sm">Reference ID: {{ request_data.id }}</p>
     </div>
-    <div class="detail-block"><h4>Attachments</h4>{% for attachment in attachments %}<p><a href="{{ attachment.signed_url }}" target="_blank">{{ attachment.file_name }}</a></p>{% endfor %}</div>
-    {% if request_data.status == 'Draft' %}<div class="form-actions"><a class="btn-primary" href="{{ url_for('request.new_request') }}">Edit</a><a class="btn-approve" href="{{ url_for('request.submit_request') }}">Submit</a></div>{% endif %}
+    <div>
+        <a href="{{ url_for('request.my_requests') }}" class="px-4 py-2 border border-outline-variant bg-white text-primary text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">
+            Back to List
+        </a>
+    </div>
 </div>
+
+<div class="grid grid-cols-12 gap-6">
+    <!-- Main Info Card -->
+    <div class="col-span-8 space-y-6">
+        <div class="bg-white border border-outline-variant p-6 space-y-6">
+            <div class="border-b border-outline-variant pb-2 flex justify-between items-center">
+                <h3 class="text-primary font-bold text-sm uppercase tracking-wider">Application Parameters</h3>
+                {% if request_data.status == 'Approved' %}
+                    <span class="px-2.5 py-1 bg-green-600 text-white text-[11px] font-bold rounded-sm uppercase">Approved</span>
+                {% elif request_data.status == 'Pending' %}
+                    <span class="px-2.5 py-1 bg-secondary text-white text-[11px] font-bold rounded-sm uppercase">Pending Approvals</span>
+                {% elif request_data.status == 'Draft' %}
+                    <span class="px-2.5 py-1 bg-gray-500 text-white text-[11px] font-bold rounded-sm uppercase">Draft</span>
+                {% else %}
+                    <span class="px-2.5 py-1 bg-error text-white text-[11px] font-bold rounded-sm uppercase">{{ request_data.status }}</span>
+                {% endif %}
+            </div>
+
+            <div class="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">Department:</span>
+                    <span class="font-bold text-on-surface">{{ request_data.department }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">Location:</span>
+                    <span class="font-bold text-on-surface">{{ request_data.location }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">Work Order No.:</span>
+                    <span class="font-bold text-on-surface">{{ request_data.work_order_no }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">Type of Work:</span>
+                    <span class="font-bold text-on-surface">{{ request_data.type_of_work }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">Job Value:</span>
+                    <span class="font-bold text-on-surface">₹{{ "{:,.2f}".format(request_data.job_value|float) }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">Party Name:</span>
+                    <span class="font-bold text-on-surface">{{ request_data.party_name }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">Nature of BG:</span>
+                    <span class="font-bold text-on-surface">{{ request_data.nature_of_bg }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">BG Amount:</span>
+                    <span class="font-bold text-primary text-base">₹{{ "{:,.2f}".format(request_data.bg_amount|float) }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">BG Expiry Date:</span>
+                    <span class="font-bold text-on-surface">{{ request_data.bg_expiry_date }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2">
+                    <span class="text-on-surface-variant font-medium">BG Claim Period:</span>
+                    <span class="font-bold text-on-surface">{{ request_data.bg_claim_period }}</span>
+                </div>
+                <div class="flex justify-between border-b border-outline-variant/40 pb-2 col-span-2">
+                    <span class="text-on-surface-variant font-medium">Approval Level Target:</span>
+                    <span class="font-bold text-secondary uppercase">{{ request_data.approval_level }} APPROVAL</span>
+                </div>
+            </div>
+
+            {% if request_data.remarks %}
+                <div class="bg-surface-container-low p-4 border border-outline-variant rounded-sm">
+                    <h4 class="text-xs font-bold text-primary uppercase tracking-wider mb-1">Requester Remarks</h4>
+                    <p class="text-sm text-on-surface leading-relaxed">{{ request_data.remarks }}</p>
+                </div>
+            {% endif %}
+
+            {% if request_data.admin_remarks %}
+                <div class="bg-amber-50 p-4 border border-amber-200 rounded-sm">
+                    <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1">Admin / Approver Remarks</h4>
+                    <p class="text-sm text-amber-900 leading-relaxed">{{ request_data.admin_remarks }}</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Admin Approval Form Action -->
+        {% if session['user']['role'] == 'admin' and request_data.status in ('Pending', 'Under Review') %}
+            <div class="bg-white border border-outline-variant p-6 space-y-4">
+                <div class="border-b border-outline-variant pb-2">
+                    <h3 class="text-primary font-bold text-sm uppercase tracking-wider">Execute Approval / Decision</h3>
+                </div>
+                <form action="{{ url_for('admin.update_status', request_id=request_data.id) }}" method="POST" class="space-y-4">
+                    <div class="flex flex-col space-y-1">
+                        <label class="font-label-bold text-xs font-bold text-on-surface" for="new_status">Select Decision Action</label>
+                        <select class="signup-input h-10 px-3 text-sm bg-white" id="new_status" name="new_status" required>
+                            <option value="Approved">Approve Request</option>
+                            <option value="Rejected">Reject Request</option>
+                            <option value="Under Review">Mark Under Review</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col space-y-1">
+                        <label class="font-label-bold text-xs font-bold text-on-surface" for="admin_remarks">Approval Remarks / Notes</label>
+                        <textarea class="signup-input p-3 text-sm bg-white" id="admin_remarks" name="admin_remarks" rows="3" placeholder="Enter reason for approval or rejection..." required></textarea>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-6 py-2.5 bg-primary text-on-primary text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">
+                            Submit Decision
+                        </button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Attachments Card -->
+    <div class="col-span-4 space-y-6">
+        <div class="bg-white border border-outline-variant p-6 space-y-4">
+            <div class="border-b border-outline-variant pb-2">
+                <h3 class="text-primary font-bold text-sm uppercase tracking-wider flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]" data-icon="attachment">attachment</span> Documents
+                </h3>
+            </div>
+            
+            <div class="space-y-3">
+                {% if attachments %}
+                    {% for att in attachments %}
+                        <div class="p-3 border border-outline-variant rounded-sm flex items-center gap-3 bg-surface-container-low hover:bg-surface-container transition-all">
+                            <span class="material-symbols-outlined text-primary text-2xl" data-icon="description">description</span>
+                            <div class="flex-grow min-w-0">
+                                <p class="text-xs font-bold text-on-surface truncate">{{ att.file_name }}</p>
+                                <span class="text-[10px] text-on-surface-variant font-medium uppercase">{{ att.attachment_type|replace('_', ' ') }}</span>
+                            </div>
+                            <a href="{{ att.signed_url }}" target="_blank" class="text-primary hover:text-secondary flex-shrink-0" title="Download file">
+                                <span class="material-symbols-outlined text-[20px]" data-icon="download">download</span>
+                            </a>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-xs text-on-surface-variant text-center py-4">No attachments uploaded.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

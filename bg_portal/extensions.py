@@ -34,39 +34,170 @@ class DemoStore:
     def _save(self):
         self.data_file.write_text(json.dumps(self.data, indent=2, default=str))
 
+    def is_supabase_active(self):
+        return self.app.extensions.get('supabase_enabled') and self.app.extensions.get('supabase') is not None
+
     def add_profile(self, profile):
         self.data['profiles'][profile['id']] = profile
         self._save()
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                db_profile = {k: v for k, v in profile.items() if k != 'password'}
+                client.table('profiles').upsert(db_profile).execute()
+            except Exception as e:
+                print(f"Supabase upsert profile failed: {e}")
         return profile
 
     def get_profile(self, profile_id):
-        return self.data['profiles'].get(profile_id)
+        profile = self.data['profiles'].get(profile_id)
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                res = client.table('profiles').select('*').eq('id', profile_id).execute()
+                if res.data:
+                    db_profile = res.data[0]
+                    # Retain local password if present
+                    if profile and 'password' in profile:
+                        db_profile['password'] = profile['password']
+                    return db_profile
+            except Exception as e:
+                print(f"Supabase get profile failed: {e}")
+        return profile
 
     def list_profiles(self):
-        return list(self.data['profiles'].values())
+        db_profiles = []
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                res = client.table('profiles').select('*').execute()
+                if res.data:
+                    db_profiles = res.data
+            except Exception as e:
+                print(f"Supabase list profiles failed: {e}")
+        
+        # Merge local and remote
+        profiles_dict = {p['id']: p for p in self.data['profiles'].values()}
+        for p in db_profiles:
+            profiles_dict[p['id']] = p
+        return list(profiles_dict.values())
 
     def add_request(self, request):
         self.data['bg_requests'][request['id']] = request
         self._save()
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                client.table('bg_requests').upsert(request).execute()
+            except Exception as e:
+                print(f"Supabase upsert request failed: {e}")
         return request
 
     def get_request(self, request_id):
-        return self.data['bg_requests'].get(request_id)
+        req = self.data['bg_requests'].get(request_id)
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                res = client.table('bg_requests').select('*').eq('id', request_id).execute()
+                if res.data:
+                    return res.data[0]
+            except Exception as e:
+                print(f"Supabase get request failed: {e}")
+        return req
 
     def list_requests(self):
-        return list(self.data['bg_requests'].values())
+        db_requests = []
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                res = client.table('bg_requests').select('*').execute()
+                if res.data:
+                    db_requests = res.data
+            except Exception as e:
+                print(f"Supabase list requests failed: {e}")
+        
+        # Merge local and remote
+        requests_dict = {r['id']: r for r in self.data['bg_requests'].values()}
+        for r in db_requests:
+            requests_dict[r['id']] = r
+        return list(requests_dict.values())
 
     def add_attachment(self, attachment):
         self.data['attachments'][attachment['id']] = attachment
         self._save()
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                client.table('attachments').insert(attachment).execute()
+            except Exception as e:
+                print(f"Supabase insert attachment failed: {e}")
         return attachment
+
+    def get_attachments(self, request_id):
+        db_attachments = []
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                res = client.table('attachments').select('*').eq('bg_request_id', request_id).execute()
+                if res.data:
+                    db_attachments = res.data
+            except Exception as e:
+                print(f"Supabase list attachments failed: {e}")
+        
+        # Merge local and remote
+        attachments_dict = {a['id']: a for a in self.data['attachments'].values() if a.get('bg_request_id') == request_id}
+        for a in db_attachments:
+            attachments_dict[a['id']] = a
+        return list(attachments_dict.values())
 
     def add_activity(self, item):
         self.data['activity'].append(item)
         self._save()
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                db_log = {
+                    'id': item.get('id'),
+                    'bg_request_id': item.get('bg_request_id') or item.get('request_id'),
+                    'action_by': item.get('action_by') or item.get('decided_by'),
+                    'action': item.get('action'),
+                    'old_status': item.get('old_status'),
+                    'new_status': item.get('new_status'),
+                    'note': item.get('note'),
+                    'created_at': item.get('created_at'),
+                }
+                client.table('activity_log').insert(db_log).execute()
+            except Exception as e:
+                print(f"Supabase insert activity failed: {e}")
 
     def get_activity(self, limit=10):
-        return self.data['activity'][-limit:]
+        db_activity = []
+        if self.is_supabase_active():
+            client = self.app.extensions.get('supabase_service') or self.app.extensions.get('supabase')
+            try:
+                res = client.table('activity_log').select('*').order('created_at', desc=True).limit(limit).execute()
+                if res.data:
+                    db_activity = res.data
+            except Exception as e:
+                print(f"Supabase get activity failed: {e}")
+        
+        # Merge local and remote activity
+        all_activity = list(self.data['activity'])
+        for act in db_activity:
+            # normalize keys from DB to match local structure
+            act_normalized = {
+                'id': act.get('id'),
+                'bg_request_id': act.get('bg_request_id'),
+                'action_by': act.get('action_by'),
+                'action': act.get('action'),
+                'old_status': act.get('old_status'),
+                'new_status': act.get('new_status'),
+                'note': act.get('note'),
+                'created_at': act.get('created_at'),
+            }
+            if act_normalized not in all_activity:
+                all_activity.append(act_normalized)
+        return all_activity[-limit:]
 
     def update_settings(self, settings):
         self.data['settings'].update(settings)

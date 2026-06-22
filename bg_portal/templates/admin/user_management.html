@@ -1,6 +1,72 @@
 {% extends 'base.html' %}
-{% block title %}User Management{% endblock %}
-{% block page_title %}User Management{% endblock %}
+{% block title %}User Management | BankPort Terminal{% endblock %}
+{% block page_title %}User Access Control{% endblock %}
 {% block content %}
-<section class="card-panel"><div class="section-header-bar">Users</div><table class="table"><thead><tr><th>P.No.</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead><tbody>{% for profile in profiles %}<tr><td>{{ profile.personnel_no }}</td><td>{{ profile.name }}</td><td>{{ profile.email }}</td><td>{{ profile.role }}</td><td>{{ 'Active' if profile.is_active else 'Inactive' }}</td><td><form method="post" action="{{ url_for('admin.update_role', user_id=profile.id) }}" style="display:inline;"><input type="hidden" name="role" value="{{ 'admin' if profile.role == 'requester' else 'requester' }}"><button class="btn-sm btn-outline">Toggle Role</button></form><form method="post" action="{{ url_for('admin.toggle_status', user_id=profile.id) }}" style="display:inline;"><button class="btn-sm btn-primary">Toggle Status</button></form></td></tr>{% endfor %}</tbody></table></section>
+
+<!-- Page Header -->
+<div class="mb-6">
+    <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">System User Directory</h2>
+    <p class="text-on-surface-variant text-sm">Control administrative roles, and activate/deactivate user accounts.</p>
+</div>
+
+<!-- Data Table Section -->
+<section class="bg-white border border-outline-variant overflow-hidden">
+    <div class="bg-primary px-4 py-2 flex justify-between items-center">
+        <h2 class="text-white font-bold text-sm">Registered Profiles</h2>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="table-teal-header text-white font-bold text-[13px] border-b border-outline-variant">
+                    <th class="px-4 py-3 border-r border-white/20">Personnel No</th>
+                    <th class="px-4 py-3 border-r border-white/20">Name</th>
+                    <th class="px-4 py-3 border-r border-white/20">Email</th>
+                    <th class="px-4 py-3 border-r border-white/20">Designation</th>
+                    <th class="px-4 py-3 border-r border-white/20">Role</th>
+                    <th class="px-4 py-3 border-r border-white/20">Status</th>
+                    <th class="px-4 py-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-sm font-table-data text-on-surface">
+                {% if profiles %}
+                    {% for profile in profiles %}
+                        <tr class="hover:bg-primary-container/5 transition-colors border-b border-outline-variant {% if loop.index0 % 2 == 1 %}bg-surface-container-low{% endif %}">
+                            <td class="px-4 py-2.5 font-bold border-r border-outline-variant">{{ profile.personnel_no }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ profile.name }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ profile.email }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">{{ profile.designation or '-' }}</td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">
+                                <span class="px-2 py-0.5 rounded text-[11px] font-bold uppercase {% if profile.role == 'admin' %}bg-primary text-white{% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ profile.role }}
+                                </span>
+                            </td>
+                            <td class="px-4 py-2.5 border-r border-outline-variant">
+                                {% if profile.is_active %}
+                                    <span class="px-2 py-0.5 bg-green-600 text-white text-[11px] font-bold rounded-sm uppercase">Active</span>
+                                {% else %}
+                                    <span class="px-2 py-0.5 bg-gray-500 text-white text-[11px] font-bold rounded-sm uppercase">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-4 py-2.5 flex gap-2">
+                                <form method="POST" action="{{ url_for('admin.update_role', user_id=profile.id) }}" class="inline">
+                                    <input type="hidden" name="role" value="{{ 'admin' if profile.role == 'requester' else 'requester' }}">
+                                    <button class="px-3 py-1 bg-surface-container border border-outline-variant text-xs font-bold text-primary hover:bg-opacity-90 transition-all rounded">Toggle Role</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('admin.toggle_status', user_id=profile.id) }}" class="inline">
+                                    <button class="px-3 py-1 bg-secondary text-white text-xs font-bold uppercase hover:bg-opacity-90 transition-all rounded">Toggle Status</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="px-4 py-8 text-center text-on-surface-variant bg-surface-container-lowest">
+                            No profiles registered.
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</section>
 {% endblock %}

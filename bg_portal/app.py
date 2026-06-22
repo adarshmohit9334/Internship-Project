@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, url_for
 from config import Config
 from extensions import init_extensions
 from routes import register_blueprints
@@ -10,6 +10,11 @@ def create_app():
     app.permanent_session_lifetime = timedelta(hours=8)
     init_extensions(app)
     register_blueprints(app)
+
+    @app.route('/')
+    def index():
+        return redirect(url_for('dashboard.home'))
+
     return app
 
 app = create_app()
