@@ -4,13 +4,13 @@
 {% block content %}
 
 <!-- Page Header -->
-<div class="flex justify-between items-end mb-6">
+<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-6">
     <div>
         <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Your Bank Guarantee Applications</h2>
         <p class="text-on-surface-variant text-sm">View details, drafts, and approval history of your applications.</p>
     </div>
     <div class="flex gap-2">
-        <a href="{{ url_for('request.new_request') }}" class="px-4 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-opacity-95 transition-all">
+        <a href="{{ url_for('request.new_request') }}" class="px-4 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-opacity-95 transition-all w-full sm:w-auto justify-center">
             <span class="material-symbols-outlined text-[18px]" data-icon="add">add</span> New Request
         </a>
     </div>
@@ -22,7 +22,7 @@
         <h2 class="text-white font-bold text-sm">All Guarantee Requests</h2>
     </div>
     <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
+        <table class="w-full text-left border-collapse min-w-[800px]">
             <thead>
                 <tr class="table-teal-header text-white font-bold text-[13px] border-b border-outline-variant">
                     <th class="px-4 py-3 border-r border-white/20">BG ID</th>
