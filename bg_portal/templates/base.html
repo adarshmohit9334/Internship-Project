@@ -173,11 +173,6 @@
             </nav>
         </div>
         <div class="mt-auto px-6 py-6 border-t border-on-primary/10">
-            {% if not (user and user.role == 'admin') %}
-                <a href="{{ url_for('request.new_request') }}" class="block text-center w-full py-2 bg-secondary text-on-secondary font-bold text-sm rounded mb-6 hover:brightness-110 transition-all uppercase tracking-wide">
-                    New Application
-                </a>
-            {% endif %}
             <div class="space-y-4">
                 <a class="flex items-center gap-3 text-on-primary/60 hover:text-on-primary text-sm transition-colors" href="#">
                     <span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
