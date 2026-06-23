@@ -58,27 +58,37 @@
         }
     </style>
 </head>
-<body class="min-h-screen w-full flex items-stretch overflow-y-auto">
-    <!-- Left Panel: Brand Anchor -->
-    <div class="hidden md:flex md:w-1/2 bg-primary-container items-center justify-center relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
-        <div class="z-10 text-center px-8 max-w-md">
-            <div class="mb-6 flex justify-center">
-                <span class="material-symbols-outlined text-[80px] text-on-primary" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
-            </div>
-            <h1 class="font-h1 text-2xl text-on-primary font-bold mb-2 tracking-tight">BankPort Bank Guarantee Portal</h1>
-            <p class="font-body-md text-sm text-on-primary-container opacity-90 leading-relaxed">
-                Step 1 of 2: Create your profile details to register on the guarantee platform.
-            </p>
+<body class="min-h-screen w-full flex flex-col items-center bg-surface overflow-y-auto pb-12">
+
+    <!-- Mobile view header -->
+    <div class="w-full bg-[#001256] text-white flex justify-between items-center px-4 py-3 z-50 shadow-sm">
+        <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">security</span>
+            <span class="text-xs font-bold tracking-wide">Bank Guarantee Portal</span>
+        </div>
+        <span class="text-[10px] text-white/60 font-mono">v2.4.0</span>
+    </div>
+
+    <!-- Registration Progress Tracker Header -->
+    <div class="w-full max-w-[420px] px-4 mt-6">
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-[10px] font-bold text-primary tracking-widest uppercase">Registration Progress</span>
+            <span class="text-xs font-bold text-on-surface-variant">Step 1 of 2</span>
+        </div>
+        <div class="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div class="w-1/2 h-full bg-[#3b5998]"></div>
         </div>
     </div>
 
-    <!-- Right Panel: Transactional Form -->
-    <div class="w-full md:w-1/2 bg-white flex items-center justify-center p-8 overflow-y-auto">
-        <div class="w-full max-w-[420px]">
-            <div class="mb-6">
-                <h2 class="font-h1 text-2xl text-primary font-bold mb-1">Sign Up</h2>
-                <p class="font-body-md text-sm text-on-surface-variant">Step 1: Profile Information</p>
+    <!-- Main Container -->
+    <div class="w-full max-w-[420px] px-4 mt-6">
+        <!-- Input Form Card -->
+        <div class="bg-white border border-outline-variant rounded-lg p-6 shadow-sm mb-4">
+            
+            <div class="mb-4">
+                <h2 class="text-lg font-bold text-[#001256]">Employee Information</h2>
+                <p class="text-xs text-on-surface-variant italic mt-0.5">Please provide your official corporate details to proceed.</p>
+                <hr class="border-outline-variant/60 mt-3" />
             </div>
 
             <!-- Flash Stack -->
@@ -96,50 +106,90 @@
             {% endwith %}
 
             <form class="space-y-4" method="POST">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex flex-col space-y-1">
-                        <label class="font-label-bold text-xs font-bold text-on-surface" for="name">Full Name</label>
-                        <input class="signup-input h-10 px-3 text-sm bg-white" id="name" name="name" placeholder="John Doe" required="" type="text"/>
-                    </div>
-                    <div class="flex flex-col space-y-1">
-                        <label class="font-label-bold text-xs font-bold text-on-surface" for="personnel_no">Personnel No.</label>
-                        <input class="signup-input h-10 px-3 text-sm bg-white" id="personnel_no" name="personnel_no" placeholder="EMP1001" required="" type="text"/>
+                <!-- Department -->
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="department">Department</label>
+                    <select class="signup-input h-10 px-3 text-sm bg-white" id="department" name="department" required>
+                        <option value="">Select Department</option>
+                        <option value="Operations">Operations</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Treasury">Treasury</option>
+                        <option value="IT & Security">IT & Security</option>
+                        <option value="Risk Management">Risk Management</option>
+                    </select>
+                </div>
+
+                <!-- Location -->
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="location">Location</label>
+                    <div class="relative">
+                        <select class="signup-input h-10 w-full pl-3 pr-10 text-sm bg-white appearance-none" id="location" name="location" required>
+                            <option value="">Select Office Location</option>
+                            <option value="Delhi">Delhi</option>
+                            <option value="Mumbai">Mumbai</option>
+                            <option value="Bangalore">Bangalore</option>
+                            <option value="London">London</option>
+                            <option value="New York">New York</option>
+                        </select>
+                        <span class="absolute right-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[20px] pointer-events-none">location_on</span>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex flex-col space-y-1">
-                        <label class="font-label-bold text-xs font-bold text-on-surface" for="department">Department</label>
-                        <input class="signup-input h-10 px-3 text-sm bg-white" id="department" name="department" placeholder="Operations" required="" type="text"/>
-                    </div>
-                    <div class="flex flex-col space-y-1">
-                        <label class="font-label-bold text-xs font-bold text-on-surface" for="designation">Designation</label>
-                        <input class="signup-input h-10 px-3 text-sm bg-white" id="designation" name="designation" placeholder="Manager" required="" type="text"/>
+                <!-- Full Name -->
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="name">Full Name</label>
+                    <input class="signup-input h-10 px-3 text-sm bg-white" id="name" name="name" placeholder="As per official ID" required type="text"/>
+                </div>
+
+                <!-- Personnel No / User ID -->
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="personnel_no">Personnel No. / User ID</label>
+                    <input class="signup-input h-10 px-3 text-sm bg-white" id="personnel_no" name="personnel_no" placeholder="e.g. EMP-99821" required type="text"/>
+                </div>
+
+                <!-- Designation -->
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="designation">Designation</label>
+                    <input class="signup-input h-10 px-3 text-sm bg-white" id="designation" name="designation" placeholder="e.g. Senior Analyst" required type="text"/>
+                </div>
+
+                <!-- Mobile No -->
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="mobile_no">Mobile No.</label>
+                    <div class="flex gap-2">
+                        <select class="signup-input h-10 w-20 px-2 text-sm bg-white flex-shrink-0" id="country_code">
+                            <option value="+44">+44</option>
+                            <option value="+91">+91</option>
+                            <option value="+1">+1</option>
+                        </select>
+                        <input class="signup-input h-10 px-3 text-sm bg-white flex-grow" id="mobile_no" name="mobile_no" placeholder="7700 900123" required type="text"/>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex flex-col space-y-1">
-                        <label class="font-label-bold text-xs font-bold text-on-surface" for="location">Location</label>
-                        <input class="signup-input h-10 px-3 text-sm bg-white" id="location" name="location" placeholder="Delhi" required="" type="text"/>
-                    </div>
-                    <div class="flex flex-col space-y-1">
-                        <label class="font-label-bold text-xs font-bold text-on-surface" for="mobile_no">Mobile No.</label>
-                        <input class="signup-input h-10 px-3 text-sm bg-white" id="mobile_no" name="mobile_no" placeholder="9999999999" required="" type="text"/>
-                    </div>
-                </div>
-
-                <!-- Submit Button -->
-                <button class="w-full h-11 bg-primary text-on-primary font-label-bold text-sm font-bold uppercase tracking-wide rounded hover:bg-opacity-90 active:scale-[0.98] transition-all duration-150 flex items-center justify-center" type="submit">
-                    Continue to Step 2
+                <!-- Next Button -->
+                <button class="w-full h-11 bg-primary text-on-primary font-label-bold text-sm font-bold uppercase tracking-wide rounded hover:bg-opacity-90 active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2 mt-6" type="submit">
+                    <span>Next</span>
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </button>
             </form>
+        </div>
 
-            <!-- Secondary Action -->
-            <div class="mt-6 pt-4 border-t border-outline-variant text-center">
-                <p class="font-body-md text-sm text-on-surface-variant">
-                    Already registered? <a class="font-label-bold font-bold text-primary hover:underline" href="{{ url_for('auth.login') }}">Login</a>
-                </p>
+        <!-- Secondary Action -->
+        <div class="pt-2 text-center mb-8">
+            <p class="font-body-md text-sm text-on-surface-variant">
+                Already have an account? <a class="font-label-bold font-bold text-primary hover:underline" href="{{ url_for('auth.login') }}">Login</a>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex flex-col items-center justify-center space-y-2 mt-8 text-on-surface-variant/60">
+            <div class="flex items-center gap-1.5 text-[10px] font-bold tracking-wider uppercase">
+                <span class="material-symbols-outlined text-[14px]">security</span>
+                <span>Secure Bank Environment</span>
+            </div>
+            <div class="flex gap-4 text-xs font-medium">
+                <a href="#" class="hover:underline">Privacy Policy</a>
+                <a href="#" class="hover:underline">System Status</a>
             </div>
         </div>
     </div>

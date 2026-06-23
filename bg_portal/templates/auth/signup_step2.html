@@ -58,28 +58,38 @@
         }
     </style>
 </head>
-<body class="min-h-screen w-full flex items-stretch overflow-y-auto">
-    <!-- Left Panel: Brand Anchor -->
-    <div class="hidden md:flex md:w-1/2 bg-primary-container items-center justify-center relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
-        <div class="z-10 text-center px-8 max-w-md">
-            <div class="mb-6 flex justify-center">
-                <span class="material-symbols-outlined text-[80px] text-on-primary" data-icon="security" style="font-variation-settings: 'FILL' 1;">security</span>
-            </div>
-            <h1 class="font-h1 text-2xl text-on-primary font-bold mb-2 tracking-tight">BankPort Bank Guarantee Portal</h1>
-            <p class="font-body-md text-sm text-on-primary-container opacity-90 leading-relaxed">
-                Step 2 of 2: Create your security credentials to access the secure terminal workspace.
-            </p>
+<body class="min-h-screen w-full flex flex-col items-center bg-surface overflow-y-auto pb-12">
+
+    <!-- Mobile view header -->
+    <div class="w-full bg-[#001256] text-white flex justify-between items-center px-4 py-3 z-50 shadow-sm">
+        <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">security</span>
+            <span class="text-xs font-bold tracking-wide">Bank Guarantee Portal</span>
+        </div>
+        <span class="text-[10px] text-white/60 font-mono">v2.4.0</span>
+    </div>
+
+    <!-- Registration Progress Tracker Header -->
+    <div class="w-full max-w-[420px] px-4 mt-6">
+        <div class="flex justify-between items-center mb-2">
+            <span class="text-[10px] font-bold text-primary tracking-widest uppercase">Registration Progress</span>
+            <span class="text-xs font-bold text-on-surface-variant">Step 2 of 2</span>
+        </div>
+        <div class="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div class="w-full h-full bg-[#7990ff]"></div>
         </div>
     </div>
 
-    <!-- Right Panel: Transactional Form -->
-    <div class="w-full md:w-1/2 bg-white flex items-center justify-center p-8 overflow-y-auto">
-        <div class="w-full max-w-[360px]">
-            <div class="mb-8">
-                <h2 class="font-h1 text-2xl text-primary font-bold mb-1">Sign Up</h2>
-                <p class="font-body-md text-sm text-on-surface-variant">Step 2: Security Credentials</p>
-            </div>
+    <!-- Main Container -->
+    <div class="w-full max-w-[420px] px-4 mt-6">
+        
+        <div class="mb-4 px-2">
+            <h2 class="text-lg font-bold text-[#191c1d]">Security & Authentication</h2>
+            <p class="text-xs text-on-surface-variant mt-0.5">Please set up your credentials to secure your professional account.</p>
+        </div>
+
+        <!-- Input Form Card -->
+        <div class="bg-white border border-outline-variant rounded-lg p-6 shadow-sm mb-4">
 
             <!-- Flash Stack -->
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -95,38 +105,114 @@
                 {% endif %}
             {% endwith %}
 
-            <form class="space-y-6" method="POST">
-                <!-- Email -->
+            <form class="space-y-4" method="POST" id="signupStep2Form">
+                <!-- Email ID -->
                 <div class="flex flex-col space-y-1">
-                    <label class="font-label-bold text-xs font-bold text-on-surface" for="email">Corporate Email Address</label>
-                    <input class="signup-input h-10 px-3 text-sm bg-white" id="email" name="email" placeholder="john.doe@company.com" required="" type="email"/>
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="email">Email ID <span class="text-error">*</span></label>
+                    <input class="signup-input h-10 px-3 text-sm bg-white" id="email" name="email" placeholder="e.g. j.doe@bankcorp.com" required type="email"/>
                 </div>
 
                 <!-- Password -->
-                <div class="flex flex-col space-y-1">
-                    <label class="font-label-bold text-xs font-bold text-on-surface" for="password">Password</label>
-                    <input class="signup-input h-10 px-3 text-sm bg-white" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+                <div class="flex flex-col space-y-1 relative">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="password">Password <span class="text-error">*</span></label>
+                    <div class="relative">
+                        <input class="signup-input h-10 w-full pl-3 pr-10 text-sm bg-white" id="password" name="password" placeholder="••••••••" required type="password" oninput="checkPasswordStrength()"/>
+                        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePasswordVisibility()" type="button">
+                            <span class="material-symbols-outlined text-[20px]" data-icon="visibility" id="eye_icon">visibility</span>
+                        </button>
+                    </div>
+                    <!-- Strength Indicators -->
+                    <div class="flex gap-1.5 mt-2 h-1.5 w-full">
+                        <div id="strength-seg-1" class="w-1/3 h-full bg-gray-200 rounded-full"></div>
+                        <div id="strength-seg-2" class="w-1/3 h-full bg-gray-200 rounded-full"></div>
+                        <div id="strength-seg-3" class="w-1/3 h-full bg-gray-200 rounded-full"></div>
+                    </div>
+                    <span class="text-[10px] text-on-surface-variant mt-1" id="strength-text">Must be at least 8 characters with numbers.</span>
                 </div>
 
                 <!-- Confirm Password -->
                 <div class="flex flex-col space-y-1">
-                    <label class="font-label-bold text-xs font-bold text-on-surface" for="confirm_password">Confirm Password</label>
-                    <input class="signup-input h-10 px-3 text-sm bg-white" id="confirm_password" name="confirm_password" placeholder="••••••••" required="" type="password"/>
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="confirm_password">Confirm Password <span class="text-error">*</span></label>
+                    <input class="signup-input h-10 px-3 text-sm bg-white" id="confirm_password" name="confirm_password" placeholder="••••••••" required type="password"/>
                 </div>
 
-                <!-- Submit Button -->
-                <button class="w-full h-11 bg-primary text-on-primary font-label-bold text-sm font-bold uppercase tracking-wide rounded hover:bg-opacity-90 active:scale-[0.98] transition-all duration-150 flex items-center justify-center" type="submit">
-                    Complete Registration
-                </button>
-            </form>
+                <!-- Digital Signature Checkbox -->
+                <label class="flex items-start gap-3 cursor-pointer mt-4">
+                    <input type="checkbox" required class="rounded border-outline-variant text-primary focus:ring-primary w-4 h-4 mt-0.5">
+                    <span class="text-xs text-on-surface-variant leading-relaxed">
+                        I agree to the <a href="#" class="text-[#001256] font-bold hover:underline">Digital Signature Agreement</a> and the portal's terms of data processing.
+                    </span>
+                </label>
 
-            <!-- Secondary Action -->
-            <div class="mt-8 pt-6 border-t border-outline-variant text-center">
-                <p class="font-body-md text-sm text-on-surface-variant">
-                    Already registered? <a class="font-label-bold font-bold text-primary hover:underline" href="{{ url_for('auth.login') }}">Login</a>
-                </p>
-            </div>
+                <!-- Actions (Back & Submit) -->
+                <div class="grid grid-cols-2 gap-4 pt-4 mt-6">
+                    <a href="{{ url_for('auth.signup_step1') }}" class="h-11 border border-outline-variant text-[#001256] font-bold text-sm uppercase tracking-wide rounded hover:bg-surface-container flex items-center justify-center transition-all">
+                        Back
+                    </a>
+                    <button class="h-11 bg-[#001256] text-white font-bold text-sm uppercase tracking-wide rounded hover:bg-opacity-95 active:scale-[0.98] transition-all flex items-center justify-center gap-1.5" type="submit">
+                        <span>Submit</span>
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Secondary Action -->
+        <div class="pt-2 text-center mb-8">
+            <p class="font-body-md text-sm text-on-surface-variant">
+                Already have an account? <a class="font-label-bold font-bold text-primary hover:underline" href="{{ url_for('auth.login') }}">Login</a>
+            </p>
+        </div>
+
+        <!-- Footer -->
+        <div class="flex items-center justify-center gap-1.5 mt-8 text-on-surface-variant/60 text-xs font-medium">
+            <span class="material-symbols-outlined text-[16px]">lock</span>
+            <span>Secure 256-bit Encrypted Portal</span>
         </div>
     </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye_icon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.textContent = 'visibility_off';
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.textContent = 'visibility';
+            }
+        }
+
+        function checkPasswordStrength() {
+            const val = document.getElementById('password').value;
+            const seg1 = document.getElementById('strength-seg-1');
+            const seg2 = document.getElementById('strength-seg-2');
+            const seg3 = document.getElementById('strength-seg-3');
+            const text = document.getElementById('strength-text');
+
+            // Reset
+            seg1.className = "w-1/3 h-full bg-gray-200 rounded-full";
+            seg2.className = "w-1/3 h-full bg-gray-200 rounded-full";
+            seg3.className = "w-1/3 h-full bg-gray-200 rounded-full";
+
+            if (val.length === 0) return;
+
+            if (val.length < 8) {
+                seg1.className = "w-1/3 h-full bg-error rounded-full";
+                text.textContent = "Weak password. Minimum 8 characters required.";
+            } else if (!/\d/.test(val) || !/[a-zA-Z]/.test(val)) {
+                seg1.className = "w-1/3 h-full bg-orange-500 rounded-full";
+                seg2.className = "w-1/3 h-full bg-orange-500 rounded-full";
+                text.textContent = "Medium password. Add both letters and numbers.";
+            } else {
+                seg1.className = "w-1/3 h-full bg-green-600 rounded-full";
+                seg2.className = "w-1/3 h-full bg-green-600 rounded-full";
+                seg3.className = "w-1/3 h-full bg-green-600 rounded-full";
+                text.textContent = "Strong password secure lock enabled.";
+            }
+        }
+    </script>
 </body>
 </html>
