@@ -4,7 +4,7 @@
 {% block content %}
 
 <!-- Page Header -->
-<div class="flex justify-between items-end mb-2">
+<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-4">
     <div>
         <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Admin Portal Overview</h2>
         <p class="text-on-surface-variant text-sm">Monitor guarantee applications, approve drafts, and manage users.</p>
@@ -14,7 +14,7 @@
 <!-- Summary Bento Grid -->
 <div class="grid grid-cols-12 gap-6 mb-8">
     <!-- Stat 1: Total Requests -->
-    <div class="col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
+    <div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Total Applications</p>
@@ -25,7 +25,7 @@
         <div class="absolute bottom-0 left-0 h-1 w-full bg-primary/10"></div>
     </div>
     <!-- Stat 2: Pending -->
-    <div class="col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
+    <div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Pending Approvals</p>
@@ -36,7 +36,7 @@
         <div class="absolute bottom-0 left-0 h-1 w-full bg-secondary/10"></div>
     </div>
     <!-- Stat 3: Approved -->
-    <div class="col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
+    <div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Approved Guarantees</p>
@@ -47,7 +47,7 @@
         <div class="absolute bottom-0 left-0 h-1 w-full bg-green-700/10"></div>
     </div>
     <!-- Stat 4: Rejected -->
-    <div class="col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
+    <div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Rejected</p>
@@ -59,9 +59,9 @@
     </div>
 </div>
 
-<div class="grid grid-cols-12 gap-6">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
     <!-- Activity Feed / System Audit Trail -->
-    <div class="col-span-8 bg-white border border-outline-variant">
+    <div class="col-span-12 md:col-span-8 bg-white border border-outline-variant">
         <div class="px-4 py-3 border-b border-outline-variant flex justify-between items-center">
             <h4 class="font-bold text-primary flex items-center gap-2">
                 <span class="material-symbols-outlined text-[18px]" data-icon="history">history</span> System Audit Trail
@@ -93,7 +93,7 @@
     </div>
 
     <!-- Quick Links / Info Panel -->
-    <div class="col-span-4 bg-white border border-outline-variant p-4">
+    <div class="col-span-12 md:col-span-4 bg-white border border-outline-variant p-4">
         <h4 class="font-bold text-primary mb-4">Quick Operations</h4>
         <div class="space-y-2">
             <a href="{{ url_for('approval.pending') }}" class="block w-full py-2.5 px-4 bg-primary text-on-primary text-center text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95">

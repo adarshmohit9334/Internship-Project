@@ -4,13 +4,13 @@
 {% block content %}
 
 <!-- Page Header -->
-<div class="flex justify-between items-end mb-2">
+<div class="flex flex-col sm:flex-row justify-between sm:items-end gap-4 mb-4">
     <div>
         <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Portfolio Overview</h2>
         <p class="text-on-surface-variant text-sm">Welcome to your secure guarantee operations terminal.</p>
     </div>
     <div class="flex gap-2">
-        <a href="{{ url_for('request.new_request') }}" class="px-4 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-opacity-95 transition-all">
+        <a href="{{ url_for('request.new_request') }}" class="px-4 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-opacity-95 transition-all w-full sm:w-auto justify-center">
             <span class="material-symbols-outlined text-[18px]" data-icon="add">add</span> New request
         </a>
     </div>
@@ -19,7 +19,7 @@
 <!-- Summary Bento Grid -->
 <div class="grid grid-cols-12 gap-6 mb-8">
     <!-- Stat 1: Total Requests -->
-    <div class="col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
+    <div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Total Requests</p>
@@ -30,7 +30,7 @@
         <div class="absolute bottom-0 left-0 h-1 w-full bg-primary/10"></div>
     </div>
     <!-- Stat 2: Pending -->
-    <div class="col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
+    <div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Pending Approvals</p>
@@ -41,7 +41,7 @@
         <div class="absolute bottom-0 left-0 h-1 w-full bg-secondary/10"></div>
     </div>
     <!-- Stat 3: Approved -->
-    <div class="col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
+    <div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Approved Guarantees</p>
@@ -52,7 +52,7 @@
         <div class="absolute bottom-0 left-0 h-1 w-full bg-green-700/10"></div>
     </div>
     <!-- Stat 4: Rejected -->
-    <div class="col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
+    <div class="col-span-12 sm:col-span-6 lg:col-span-3 bg-white border border-outline-variant p-4 relative overflow-hidden">
         <div class="flex justify-between items-start">
             <div>
                 <p class="text-on-surface-variant font-bold text-[11px] uppercase tracking-wider">Rejected</p>
