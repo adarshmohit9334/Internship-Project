@@ -27,7 +27,7 @@
             <h3 class="text-primary font-bold text-sm uppercase tracking-wider">1. Application Details</h3>
         </div>
         
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="flex flex-col space-y-1">
                 <label class="font-label-bold text-xs font-bold text-on-surface" for="department">Department</label>
                 <input class="signup-input h-10 px-3 text-sm bg-white" id="department" name="department" value="{{ profile.department or '' }}" required type="text"/>
@@ -38,7 +38,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
             <div class="flex flex-col space-y-1">
                 <label class="font-label-bold text-xs font-bold text-on-surface" for="date_of_request">Date of Request</label>
                 <input class="signup-input h-10 px-3 text-sm bg-gray-50 text-on-surface-variant" id="date_of_request" name="date_of_request" value="{{ today }}" readonly type="date"/>
@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
             <div class="flex flex-col space-y-1">
                 <label class="font-label-bold text-xs font-bold text-on-surface" for="job_value">Job Value (₹)</label>
                 <input class="signup-input h-10 px-3 text-sm bg-white" id="job_value" name="job_value" step="0.01" required type="number"/>
@@ -80,7 +80,7 @@
             <h3 class="text-primary font-bold text-sm uppercase tracking-wider">2. Guarantee Specification</h3>
         </div>
 
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="flex flex-col space-y-1">
                 <label class="font-label-bold text-xs font-bold text-on-surface" for="party_name">Party Name</label>
                 <input class="signup-input h-10 px-3 text-sm bg-white" id="party_name" name="party_name" required type="text"/>
@@ -96,7 +96,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-6 mt-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
             <div class="flex flex-col space-y-1">
                 <label class="font-label-bold text-xs font-bold text-on-surface" for="bg_amount">BG Amount (₹)</label>
                 <input class="signup-input h-10 px-3 text-sm bg-white" id="bg_amount" name="bg_amount" step="0.01" required type="number"/>
@@ -123,7 +123,7 @@
             <h3 class="text-primary font-bold text-sm uppercase tracking-wider">3. Mandatory Document Uploads</h3>
         </div>
 
-        <div class="grid grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Left Column -->
             <div class="flex flex-col space-y-4">
                 <div class="flex flex-col space-y-1">
@@ -155,7 +155,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="flex justify-end gap-3 pt-4 border-t border-outline-variant">
+    <div class="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-outline-variant">
         <button type="submit" formaction="{{ url_for('request.save_draft') }}" class="px-6 py-2.5 bg-secondary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">
             Save as Draft
         </button>
