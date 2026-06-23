@@ -110,14 +110,20 @@
 <body class="text-on-surface overflow-x-hidden">
 
     <!-- Side Navigation Shell -->
-    <aside class="fixed left-0 top-0 h-full w-[220px] bg-primary flex flex-col border-r border-outline-variant z-50">
+    <aside id="sidebar" class="fixed left-0 top-0 h-full w-[220px] bg-primary flex flex-col border-r border-outline-variant z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
         <div class="px-6 py-8">
-            <div class="flex items-center gap-3 mb-8">
-                <span class="material-symbols-outlined text-on-primary text-3xl" style="font-variation-settings: 'FILL' 1;">security</span>
-                <div class="flex flex-col">
-                    <span class="text-h2 font-h2 text-on-primary font-bold tracking-tight leading-none">BankPort</span>
-                    <span class="text-[10px] text-on-primary/60 uppercase tracking-widest font-bold">Guarantee System</span>
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-3">
+                    <span class="material-symbols-outlined text-on-primary text-3xl" style="font-variation-settings: 'FILL' 1;">security</span>
+                    <div class="flex flex-col">
+                        <span class="text-h2 font-h2 text-on-primary font-bold tracking-tight leading-none">BankPort</span>
+                        <span class="text-[10px] text-on-primary/60 uppercase tracking-widest font-bold">Guarantee System</span>
+                    </div>
                 </div>
+                <!-- Close button for mobile -->
+                <button id="sidebar-close" class="block md:hidden text-on-primary/60 hover:text-on-primary p-1">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
+                </button>
             </div>
             <nav class="space-y-1">
                 {% set user = session.get('user') %}
@@ -182,20 +188,28 @@
         </div>
     </aside>
 
+    <!-- Sidebar Backdrop overlay for mobile -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity duration-300"></div>
+
     <!-- Top Navigation Bar -->
-    <header class="fixed top-0 right-0 h-[56px] w-[calc(100%-220px)] bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center px-container_padding z-40">
-        <div class="flex items-center gap-6">
-            <div class="relative group">
+    <header class="fixed top-0 right-0 h-[56px] w-full md:w-[calc(100%-220px)] bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center px-4 md:px-container_padding z-40">
+        <div class="flex items-center gap-2 md:gap-6">
+            <!-- Sidebar toggle button for mobile -->
+            <button id="sidebar-toggle" class="block md:hidden text-primary hover:bg-surface-container-low p-2 rounded transition-colors mr-1">
+                <span class="material-symbols-outlined text-[24px]">menu</span>
+            </button>
+            <div class="relative group hidden sm:block">
                 <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]" data-icon="search">search</span>
-                <input class="pl-10 pr-4 py-1.5 w-80 bg-surface-container text-input-text border border-outline-variant focus:border-primary focus:ring-0 outline-none rounded-sm transition-all" placeholder="Search guarantees, clients, or audits..." type="text"/>
+                <input class="pl-10 pr-4 py-1.5 w-60 md:w-80 bg-surface-container text-input-text border border-outline-variant focus:border-primary focus:ring-0 outline-none rounded-sm transition-all" placeholder="Search guarantees, clients, or audits..." type="text"/>
             </div>
-            <div class="h-6 w-[1px] bg-outline-variant"></div>
+            <div class="h-6 w-[1px] bg-outline-variant hidden sm:block"></div>
             <h2 class="text-primary font-bold text-body-md py-4">{% block page_title %}Terminal Operations{% endblock %}</h2>
         </div>
         <div class="flex items-center gap-4">
             {% if session.get('user') %}
                 <div class="flex items-center gap-3 bg-surface-container-low px-3 py-1 rounded border border-outline-variant">
-                    <span class="text-on-surface font-label-bold text-sm">👤 {{ session['user']['name'] }} ({% if session['user']['personnel_no'] %}{{ session['user']['personnel_no'] }}{% else %}ID: {{ session['user']['id'][:6] }}{% endif %})</span>
+                    <span class="text-on-surface font-label-bold text-sm hidden xs:inline">👤 {{ session['user']['name'] }}</span>
+                    <span class="text-on-surface font-label-bold text-sm xs:hidden">👤 Profile</span>
                     <div class="h-4 w-[1px] bg-outline-variant"></div>
                     <a href="{{ url_for('auth.logout') }}" class="text-error font-label-bold text-sm hover:underline">Logout</a>
                 </div>
@@ -206,8 +220,8 @@
     </header>
 
     <!-- Main Content Canvas -->
-    <main class="ml-[220px] pt-[56px] min-h-screen">
-        <div class="p-container_padding space-y-6">
+    <main class="ml-0 md:ml-[220px] pt-[56px] min-h-screen">
+        <div class="p-4 md:p-container_padding space-y-6">
             <!-- Flash Alerts Stack -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -237,6 +251,33 @@
             searchInput.addEventListener('blur', () => {
                 searchInput.parentElement.classList.remove('ring-2', 'ring-primary/20');
             });
+        }
+
+        // Sidebar Toggle Script for Mobile Devices
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarClose = document.getElementById('sidebar-close');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+                sidebar.classList.add('translate-x-0');
+                sidebarOverlay.classList.remove('hidden');
+            });
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('translate-x-0');
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+        }
+
+        if (sidebarClose) {
+            sidebarClose.addEventListener('click', closeSidebar);
+        }
+        if (sidebarOverlay) {
+            sidebarOverlay.addEventListener('click', closeSidebar);
         }
     </script>
 </body>
