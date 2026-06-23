@@ -124,28 +124,32 @@
         </div>
 
         <div class="grid grid-cols-2 gap-6">
-            <div class="flex flex-col space-y-1">
-                <label class="font-label-bold text-xs font-bold text-on-surface" for="bg_vetted_draft">BG Vetted Draft <span class="text-error">*</span></label>
-                <input class="signup-input p-1.5 text-xs bg-white" id="bg_vetted_draft" name="bg_vetted_draft" required type="file"/>
+            <!-- Left Column -->
+            <div class="flex flex-col space-y-4">
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="bg_vetted_draft">BG Vetted Draft <span class="text-error">*</span></label>
+                    <input class="signup-input p-1.5 text-xs bg-white" id="bg_vetted_draft" name="bg_vetted_draft" required type="file"/>
+                </div>
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="bank_account_details">Bank Account Details <span class="text-error">*</span></label>
+                    <input class="signup-input p-1.5 text-xs bg-white" id="bank_account_details" name="bank_account_details" required type="file"/>
+                </div>
             </div>
-            <div class="flex flex-col space-y-1">
-                <label class="font-label-bold text-xs font-bold text-on-surface" for="beneficiary_clause">Beneficiary Clause / Advertisement <span class="text-error">*</span></label>
-                <input class="signup-input p-1.5 text-xs bg-white" id="beneficiary_clause" name="beneficiary_clause" required type="file"/>
-            </div>
-        </div>
 
-        <div class="grid grid-cols-3 gap-6 mt-4">
-            <div class="flex flex-col space-y-1">
-                <label class="font-label-bold text-xs font-bold text-on-surface" for="bank_account_details">Bank Account Details <span class="text-error">*</span></label>
-                <input class="signup-input p-1.5 text-xs bg-white" id="bank_account_details" name="bank_account_details" required type="file"/>
-            </div>
-            <div class="flex flex-col space-y-1" id="md_approval_container">
-                <label class="font-label-bold text-xs font-bold text-on-surface" for="md_approval">MD Approval Document</label>
-                <input class="signup-input p-1.5 text-xs bg-white" id="md_approval" name="md_approval" type="file"/>
-            </div>
-            <div class="flex flex-col space-y-1" id="board_approval_container">
-                <label class="font-label-bold text-xs font-bold text-on-surface" for="board_approval">Board Approval Document</label>
-                <input class="signup-input p-1.5 text-xs bg-white" id="board_approval" name="board_approval" type="file"/>
+            <!-- Right Column -->
+            <div class="flex flex-col space-y-4">
+                <div class="flex flex-col space-y-1">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="beneficiary_clause">Beneficiary Clause / Advertisement <span class="text-error">*</span></label>
+                    <input class="signup-input p-1.5 text-xs bg-white" id="beneficiary_clause" name="beneficiary_clause" required type="file"/>
+                </div>
+                <div class="flex flex-col space-y-1" id="md_approval_container">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="md_approval">MD Approval Document <span class="text-error">*</span></label>
+                    <input class="signup-input p-1.5 text-xs bg-white" id="md_approval" name="md_approval" type="file"/>
+                </div>
+                <div class="flex flex-col space-y-1" id="board_approval_container">
+                    <label class="font-label-bold text-xs font-bold text-on-surface" for="board_approval">Board Approval Document <span class="text-error">*</span></label>
+                    <input class="signup-input p-1.5 text-xs bg-white" id="board_approval" name="board_approval" type="file"/>
+                </div>
             </div>
         </div>
     </div>
