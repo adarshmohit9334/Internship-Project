@@ -58,8 +58,15 @@
         }
     </style>
 </head>
-<body class="min-h-screen w-full flex items-stretch overflow-y-auto">
-    <!-- Left Panel: Brand Anchor -->
+<body class="min-h-screen w-full flex flex-col md:flex-row items-stretch overflow-y-auto bg-surface">
+
+    <!-- Mobile view header -->
+    <div class="md:hidden w-full bg-[#001256] text-white flex items-center px-4 py-3 gap-2.5 z-50 shadow-sm">
+        <span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;">security</span>
+        <span class="text-xs font-bold tracking-wide">Bank Guarantee Portal</span>
+    </div>
+
+    <!-- Left Panel: Brand Anchor (Desktop only) -->
     <div class="hidden md:flex md:w-1/2 bg-primary-container items-center justify-center relative overflow-hidden">
         <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
         <div class="z-10 text-center px-8 max-w-md">
@@ -90,56 +97,102 @@
     </div>
 
     <!-- Right Panel: Transactional Form -->
-    <div class="w-full md:w-1/2 bg-white flex items-center justify-center p-8 overflow-y-auto">
-        <div class="w-full max-w-[360px]">
-            <div class="mb-8">
+    <div class="w-full md:w-1/2 flex flex-col items-center justify-center px-4 py-8 sm:px-8 overflow-y-auto min-h-[calc(100vh-44px)] md:min-h-screen bg-surface">
+        <div class="w-full max-w-[360px] pb-20 md:pb-0">
+            
+            <!-- Mobile logo header -->
+            <div class="md:hidden flex flex-col items-center mt-2 mb-6">
+                <div class="w-16 h-16 bg-[#001256] rounded-xl flex items-center justify-center shadow-md mb-3">
+                    <span class="material-symbols-outlined text-[32px] text-white" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+                </div>
+                <h1 class="text-xl font-bold text-[#001256] tracking-wider leading-none">BGP PORTAL</h1>
+                <p class="text-[11px] text-on-surface-variant font-medium mt-1">Secured Financial Instrument Access</p>
+            </div>
+
+            <!-- Title (Desktop only) -->
+            <div class="hidden md:block mb-8">
                 <h2 class="font-h1 text-2xl text-primary font-bold mb-1">Login</h2>
                 <p class="font-body-md text-sm text-on-surface-variant">Access the BankPort Terminal dashboard.</p>
             </div>
 
-            <!-- Flash Stack -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div class="space-y-2 mb-6">
-                        {% for category, message in messages %}
-                            <div class="p-3 border rounded text-xs {% if category == 'error' %}bg-error-container text-error border-error/20{% else %}bg-green-50 text-green-700 border-green-200{% endif %} flex justify-between items-center">
-                                <span>{{ message }}</span>
-                                <button onclick="this.parentElement.remove()" class="font-bold">x</button>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            {% endwith %}
+            <!-- Login Card Container -->
+            <div class="bg-white md:bg-transparent border border-outline-variant md:border-0 rounded-lg p-6 md:p-0 shadow-sm md:shadow-none mb-4">
+                
+                <!-- Card Header (Mobile only) -->
+                <h2 class="md:hidden text-lg font-bold text-on-surface mb-4">Login</h2>
 
-            <form class="space-y-6" id="loginForm" method="POST">
-                <!-- Personnel No. / Email -->
-                <div class="flex flex-col space-y-1">
-                    <label class="font-label-bold text-xs font-bold text-on-surface" for="personnel_no">Personnel No. / Email</label>
-                    <input class="login-input h-10 px-3 font-input-text text-sm bg-white" id="personnel_no" name="personnel_no" placeholder="EMP1001 or email" required="" type="text"/>
-                </div>
-                <!-- Password -->
-                <div class="flex flex-col space-y-1 relative">
-                    <label class="font-label-bold text-xs font-bold text-on-surface" for="password">Password</label>
-                    <div class="relative">
-                        <input class="login-input h-10 w-full pl-3 pr-10 font-input-text text-sm bg-white" id="password" name="password" placeholder="••••••••" required="" type="password"/>
-                        <button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePasswordVisibility()" type="button">
-                            <span class="material-symbols-outlined text-[20px]" data-icon="visibility" id="eye_icon">visibility</span>
-                        </button>
+                <!-- Flash Stack -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="space-y-2 mb-6">
+                            {% for category, message in messages %}
+                                <div class="p-3 border rounded text-xs {% if category == 'error' %}bg-error-container text-error border-error/20{% else %}bg-green-50 text-green-700 border-green-200{% endif %} flex justify-between items-center">
+                                    <span>{{ message }}</span>
+                                    <button onclick="this.parentElement.remove()" class="font-bold">x</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form class="space-y-4 md:space-y-6" id="loginForm" method="POST">
+                    <!-- Personnel No. / Email -->
+                    <div class="flex flex-col space-y-1">
+                        <label class="font-label-bold text-[10px] font-bold text-on-surface-variant uppercase tracking-wider" for="personnel_no">Personnel No. / User ID</label>
+                        <input class="login-input h-11 px-3 font-input-text text-sm bg-white" id="personnel_no" name="personnel_no" placeholder="e.g. 151514" required="" type="text"/>
                     </div>
-                </div>
-                <!-- Submit Button -->
-                <button class="w-full h-11 bg-primary text-on-primary font-label-bold text-sm font-bold uppercase tracking-wide rounded hover:bg-opacity-90 active:scale-[0.98] transition-all duration-150 flex items-center justify-center" type="submit">
-                    Login
-                </button>
-            </form>
+                    <!-- Password -->
+                    <div class="flex flex-col space-y-1 relative">
+                        <label class="font-label-bold text-[10px] font-bold text-on-surface-variant uppercase tracking-wider" for="password">Password</label>
+                        <div class="relative">
+                            <input class="login-input h-11 w-full pl-3 pr-10 font-input-text text-sm bg-white" id="password" name="password" required="" type="password"/>
+                            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePasswordVisibility()" type="button">
+                                <span class="material-symbols-outlined text-[20px]" data-icon="visibility" id="eye_icon">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Forgot password -->
+                    <div class="flex justify-end text-xs font-bold text-[#001256] hover:underline pt-1">
+                        <a href="#">Forgot password?</a>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="w-full h-11 bg-primary text-on-primary font-label-bold text-xs font-bold uppercase tracking-widest rounded hover:bg-opacity-90 active:scale-[0.98] transition-all duration-150 flex items-center justify-center mt-4" type="submit">
+                        Login
+                    </button>
+                </form>
+            </div>
+
+            <!-- Security Check Card Banner (Mobile style) -->
+            <div class="bg-surface-container-low border border-outline-variant p-4 rounded-lg text-xs text-on-surface-variant flex gap-3 mb-6 items-start mt-4">
+                <span class="material-symbols-outlined text-[18px] text-[#001256] flex-shrink-0 mt-0.5" style="font-variation-settings: 'FILL' 0;">security</span>
+                <p class="leading-relaxed">For security reasons, please log out and close your web browser when you are finished accessing services.</p>
+            </div>
 
             <!-- Secondary Action -->
-            <div class="mt-8 pt-6 border-t border-outline-variant text-center">
+            <div class="pt-4 text-center">
                 <p class="font-body-md text-sm text-on-surface-variant">
                     New user? <a class="font-label-bold font-bold text-primary hover:underline" href="{{ url_for('auth.signup_step1') }}">Sign Up</a>
                 </p>
             </div>
         </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 h-[72px] bg-surface-container-low border-t border-outline-variant flex justify-around items-center z-50">
+        <a href="{{ url_for('auth.login') }}" class="flex flex-col items-center justify-center text-primary">
+            <div class="px-5 py-1 bg-[#7990ff]/30 rounded-full flex items-center justify-center mb-1 text-primary">
+                <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 0;">login</span>
+            </div>
+            <span class="text-[11px] font-bold">Login</span>
+        </a>
+        <a href="{{ url_for('auth.signup_step1') }}" class="flex flex-col items-center justify-center text-on-surface-variant">
+            <div class="px-5 py-1 rounded-full flex items-center justify-center mb-1 hover:bg-surface-container-high">
+                <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 0;">person_add</span>
+            </div>
+            <span class="text-[11px] font-bold">Sign Up</span>
+        </a>
     </div>
 
     <script>
