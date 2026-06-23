@@ -58,7 +58,7 @@
         }
     </style>
 </head>
-<body class="h-screen w-full flex items-stretch overflow-hidden">
+<body class="min-h-screen w-full flex items-stretch overflow-y-auto">
     <!-- Left Panel: Brand Anchor -->
     <div class="hidden md:flex md:w-1/2 bg-primary-container items-center justify-center relative overflow-hidden">
         <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
@@ -96,7 +96,7 @@
             {% endwith %}
 
             <form class="space-y-4" method="POST">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="flex flex-col space-y-1">
                         <label class="font-label-bold text-xs font-bold text-on-surface" for="name">Full Name</label>
                         <input class="signup-input h-10 px-3 text-sm bg-white" id="name" name="name" placeholder="John Doe" required="" type="text"/>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="flex flex-col space-y-1">
                         <label class="font-label-bold text-xs font-bold text-on-surface" for="department">Department</label>
                         <input class="signup-input h-10 px-3 text-sm bg-white" id="department" name="department" placeholder="Operations" required="" type="text"/>
@@ -118,7 +118,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="flex flex-col space-y-1">
                         <label class="font-label-bold text-xs font-bold text-on-surface" for="location">Location</label>
                         <input class="signup-input h-10 px-3 text-sm bg-white" id="location" name="location" placeholder="Delhi" required="" type="text"/>
