@@ -3,6 +3,12 @@ from utils.auth_decorators import login_required
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
+@dashboard_bp.route('/homepage')
+@login_required
+def homepage():
+    return render_template('dashboard/homepage.html')
+
+
 @dashboard_bp.route('/dashboard')
 @login_required
 def home():

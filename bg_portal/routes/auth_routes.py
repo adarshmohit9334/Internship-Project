@@ -143,9 +143,7 @@ def login():
             return redirect(url_for('auth.login'))
 
         session['user'] = _build_session_user(profile)
-        if session['user']['role'] == 'admin':
-            return redirect(url_for('admin.dashboard'))
-        return redirect(url_for('dashboard.home'))
+        return redirect(url_for('dashboard.homepage'))
     return render_template('auth/login.html')
 
 @auth_bp.route('/signup/step1', methods=['GET', 'POST'])

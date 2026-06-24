@@ -13,7 +13,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        return redirect(url_for('dashboard.home'))
+        return redirect(url_for('dashboard.homepage'))
 
     return app
 

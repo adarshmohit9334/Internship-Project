@@ -127,6 +127,12 @@
             </div>
             <nav class="space-y-1">
                 {% set user = session.get('user') %}
+                {% if user %}
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'dashboard.homepage' else '' }}" href="{{ url_for('dashboard.homepage') }}">
+                        <span class="material-symbols-outlined text-[20px]" data-icon="home">home</span>
+                        <span class="font-sidebar-nav text-sidebar-nav">Homepage</span>
+                    </a>
+                {% endif %}
                 {% if user and user.role == 'admin' %}
                     <!-- Admin Views -->
                     <a class="flex items-center gap-3 px-3 py-2.5 rounded-sm text-on-primary/80 hover:text-on-primary hover:bg-primary-container transition-colors duration-150 {{ 'sidebar-active text-on-primary bg-primary-container' if request.endpoint == 'admin.dashboard' else '' }}" href="{{ url_for('admin.dashboard') }}">
