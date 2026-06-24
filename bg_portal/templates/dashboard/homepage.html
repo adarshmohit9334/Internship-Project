@@ -2,79 +2,59 @@
 {% block title %}Homepage | BankPort Terminal{% endblock %}
 {% block page_title %}Homepage{% endblock %}
 {% block content %}
-<div class="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center select-none bg-surface-container-lowest rounded border border-outline-variant p-8 shadow-sm">
+<div class="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center select-none bg-white rounded border border-outline-variant p-10 md:p-16 shadow-sm">
     
     <!-- Header Logo Section -->
-    <div class="flex flex-col items-center space-y-2 mb-8">
-        <!-- Shield/Bank Icon resembling the professional brand logo -->
-        <div class="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 text-primary mb-2">
-            <span class="material-symbols-outlined text-[48px]" style="font-variation-settings: 'FILL' 1;">security</span>
+    <div class="flex flex-col items-center mb-10">
+        <div class="flex items-center justify-center gap-3 mb-2">
+            <!-- Shield checkmark in black circle -->
+            <svg viewBox="0 0 100 100" class="w-10 h-10">
+                <circle cx="50" cy="50" r="48" fill="#000000"/>
+                <path d="M50,28 C57,28 67,25 72,32 C72,50 65,68 50,75 C35,68 28,50 28,32 C33,25 43,28 50,28 Z" fill="none" stroke="#ffffff" stroke-width="5" stroke-linejoin="round"/>
+                <path d="M42,50 L48,56 L58,44" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="text-black font-extrabold text-2xl tracking-widest font-sans">BANKPORT</span>
         </div>
-        <h1 class="text-primary font-extrabold text-2xl md:text-3xl tracking-wider uppercase font-h1">
-            BankPort Guarantee Operations
-        </h1>
-        <p class="text-on-surface-variant text-xs md:text-sm tracking-widest uppercase font-bold opacity-85">
-            Securing Transactions & Infrastructure Guarantee Services
+        <p class="text-gray-500 font-bold text-[10px] tracking-[0.25em] uppercase">
+            Guarantee Operations Terminal
         </p>
     </div>
 
-    <!-- Central Illustration: Lightbulb with colored gears inside -->
-    <div class="relative w-64 h-64 flex items-center justify-center my-6">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" class="w-full h-full">
-            <!-- Lightbulb Outline -->
-            <path d="M100,20 C60,20 40,55 40,85 C40,110 58,125 65,135 L65,155 C65,160 70,165 75,165 L125,165 C130,165 135,160 135,155 L135,135 C142,125 160,110 160,85 C160,55 140,20 100,20 Z" 
-                  fill="none" stroke="#D1D5DB" stroke-width="4" stroke-linecap="round"/>
-            <!-- Lightbulb base (screw threads) -->
-            <path d="M70,165 L130,165 M75,173 L125,173 M80,181 L120,181 M85,189 L115,189" 
-                  fill="none" stroke="#9CA3AF" stroke-width="5" stroke-linecap="round"/>
-            <!-- Base contact point -->
-            <path d="M92,189 L108,189 C104,195 96,195 92,189 Z" fill="#4B5563"/>
+    <!-- Central Illustration -->
+    <div class="w-32 h-44 my-4 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 130" class="w-full h-full">
+            <!-- Circular Lens Frame (Green Outline) -->
+            <circle cx="50" cy="45" r="34" fill="#f0fdfa" stroke="#0f766e" stroke-width="5"/>
             
-            <!-- Colored Gears inside the bulb -->
-            <!-- Gear 1: Dark Slate Blue (Top Center-Left) -->
-            <g transform="translate(90, 75)" fill="#374151" stroke="#374151" stroke-width="1">
-                <circle cx="0" cy="0" r="14" fill="#3B4B7A"/>
-                <!-- Teeth -->
-                <path d="M-4,-19 L4,-19 L6,-14 L-6,-14 Z M-19,-4 L-19,4 L-14,6 L-14,-6 Z M4,19 L-4,19 L-6,14 L6,14 Z M19,4 L19,-4 L14,-6 L14,6 Z" fill="#3B4B7A"/>
-                <!-- Diagonal Teeth -->
-                <g transform="rotate(45)">
-                    <path d="M-4,-19 L4,-19 L6,-14 L-6,-14 Z M-19,-4 L-19,4 L-14,6 L-14,-6 Z M4,19 L-4,19 L-6,14 L6,14 Z M19,4 L19,-4 L14,-6 L14,6 Z" fill="#3B4B7A"/>
-                </g>
-                <circle cx="0" cy="0" r="4" fill="#FFFFFF"/>
-            </g>
-
-            <!-- Gear 2: Teal/Mint Green (Right) -->
-            <g transform="translate(118, 95)" fill="#2DD4BF">
-                <circle cx="0" cy="0" r="16" fill="#2DD4BF"/>
-                <path d="M-4,-21 L4,-21 L6,-16 L-6,-16 Z M-21,-4 L-21,4 L-16,6 L-16,-6 Z M4,21 L-4,21 L-6,16 L6,16 Z M21,4 L21,-4 L16,-6 L16,6 Z" fill="#2DD4BF"/>
-                <g transform="rotate(45)">
-                    <path d="M-4,-21 L4,-21 L6,-16 L-6,-16 Z M-21,-4 L-21,4 L-16,6 L-16,-6 Z M4,21 L-4,21 L-6,16 L6,16 Z M21,4 L21,-4 L16,-6 L16,6 Z" fill="#2DD4BF"/>
-                </g>
-                <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
-            </g>
-
-            <!-- Gear 3: Gold/Yellow (Bottom-Left) -->
-            <g transform="translate(85, 110)" fill="#F59E0B">
-                <circle cx="0" cy="0" r="18" fill="#F59E0B"/>
-                <path d="M-4,-23 L4,-23 L6,-18 L-6,-18 Z M-23,-4 L-23,4 L-18,6 L-18,-6 Z M4,23 L-4,23 L-6,18 L6,18 Z M23,4 L23,-4 L18,-6 L18,6 Z" fill="#F59E0B"/>
-                <g transform="rotate(45)">
-                    <path d="M-4,-23 L4,-23 L6,-18 L-6,-18 Z M-23,-4 L-23,4 L-18,6 L-18,-6 Z M4,23 L-4,23 L-6,18 L6,18 Z M23,4 L23,-4 L18,-6 L18,6 Z" fill="#F59E0B"/>
-                </g>
-                <circle cx="0" cy="0" r="5" fill="#FFFFFF"/>
-            </g>
+            <!-- Three Inner Circles -->
+            <!-- Circle 1: Yellow/Orange (Top-Left) -->
+            <circle cx="36" cy="36" r="9" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+            <!-- Circle 2: Red/Orange (Top-Right) -->
+            <circle cx="62" cy="32" r="8" fill="#fee2e2" stroke="#b91c1c" stroke-width="1.5"/>
+            <!-- Circle 3: Lavender/Purple (Bottom-Right) -->
+            <circle cx="54" cy="56" r="10" fill="#f3e8ff" stroke="#6b21a8" stroke-width="1.5"/>
+            
+            <!-- Magnifying Glass / Indicator Handle (Gray) -->
+            <rect x="45" y="79" width="10" height="26" rx="2" fill="#d1d5db"/>
+            <rect x="42" y="105" width="16" height="12" rx="2" fill="#d1d5db"/>
+            <line x1="50" y1="79" x2="50" y2="105" stroke="#9ca3af" stroke-width="2"/>
         </svg>
     </div>
 
     <!-- Slogan Section -->
-    <div class="mt-8 max-w-xl">
-        <h2 class="text-primary font-extrabold text-lg md:text-xl tracking-wider uppercase leading-snug">
-            YOUR IDEA COULD BE THE NEXT BIG THING - LEAD THE WAY!
+    <div class="mt-6 max-w-xl">
+        <h2 class="text-black font-extrabold text-2xl md:text-3xl tracking-tight leading-snug">
+            Your guarantee, approved faster.
         </h2>
-        <div class="mt-4 flex justify-center gap-4">
+        <p class="text-gray-500 font-medium text-sm md:text-base mt-2">
+            From request to MD or Board sign-off, in one terminal.
+        </p>
+        
+        <div class="mt-8 flex justify-center gap-4">
             {% if session['user']['role'] == 'admin' %}
-                <a href="{{ url_for('admin.dashboard') }}" class="px-6 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">Go To Dashboard</a>
+                <a href="{{ url_for('admin.dashboard') }}" class="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">Go To Dashboard</a>
             {% else %}
-                <a href="{{ url_for('dashboard.home') }}" class="px-6 py-2 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">Go To Dashboard</a>
+                <a href="{{ url_for('dashboard.home') }}" class="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all">Go To Dashboard</a>
             {% endif %}
         </div>
     </div>
