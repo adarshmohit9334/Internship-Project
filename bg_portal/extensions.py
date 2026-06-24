@@ -82,6 +82,14 @@ class DemoStore:
             profiles_dict[p['id']] = p
         return list(profiles_dict.values())
 
+    def add_support_ticket(self, ticket):
+        self.data.setdefault('support_tickets', []).append(ticket)
+        self._save()
+        return ticket
+
+    def list_support_tickets(self):
+        return self.data.setdefault('support_tickets', [])
+
     def add_request(self, request):
         self.data['bg_requests'][request['id']] = request
         self._save()

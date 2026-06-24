@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}Help & Support | BankPort Terminal{% endblock %}
+{% block page_title %}Help & Support{% endblock %}
+{% block content %}
+
+<!-- Page Header -->
+<div class="mb-6">
+    <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">Terminal Help & Support</h2>
+    <p class="text-on-surface-variant text-sm">Need help? Submit a support request or contact our operations helpdesk.</p>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- Left Column: Contact details & Ticket logs -->
+    <div class="lg:col-span-2 space-y-6">
+        <!-- Contact Info Card -->
+        <div class="bg-white border border-outline-variant p-6 rounded shadow-sm space-y-4">
+            <h3 class="text-primary font-bold text-sm uppercase tracking-wider border-b border-outline-variant pb-2">Operations Helpdesk Contacts</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-primary text-[20px] mt-0.5">call</span>
+                    <div>
+                        <p class="font-bold text-on-surface">Helpline Number</p>
+                        <p class="text-on-surface-variant text-xs">+1-800-555-PORT (7678)</p>
+                        <p class="text-on-surface-variant text-[11px]">Mon-Fri, 9:00 AM - 6:00 PM EST</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="material-symbols-outlined text-primary text-[20px] mt-0.5">mail</span>
+                    <div>
+                        <p class="font-bold text-on-surface">Email Support</p>
+                        <a href="mailto:support@bankport-terminal.com" class="text-primary hover:underline text-xs">support@bankport-terminal.com</a>
+                        <p class="text-on-surface-variant text-[11px]">Response within 24 hours</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket Logs Card -->
+        <div class="bg-white border border-outline-variant p-6 rounded shadow-sm space-y-4">
+            <h3 class="text-primary font-bold text-sm uppercase tracking-wider border-b border-outline-variant pb-2">Your Support Tickets</h3>
+            {% if tickets %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="table-teal-header text-white font-bold uppercase tracking-wider border-b border-outline-variant">
+                                <th class="p-3">Ticket ID</th>
+                                <th class="p-3">Category</th>
+                                <th class="p-3">Subject</th>
+                                <th class="p-3">Submitted At</th>
+                                <th class="p-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-outline-variant">
+                            {% for ticket in tickets %}
+                                <tr class="hover:bg-neutral-50">
+                                    <td class="p-3 font-mono text-gray-500 text-[10px]">{{ ticket.id[:8] }}...</td>
+                                    <td class="p-3 font-semibold">{{ ticket.category }}</td>
+                                    <td class="p-3">{{ ticket.subject }}</td>
+                                    <td class="p-3 text-gray-500">{{ ticket.created_at[:10] }} {{ ticket.created_at[11:16] }}</td>
+                                    <td class="p-3">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase {{ 'bg-amber-100 text-amber-700' if ticket.status == 'Open' else 'bg-green-100 text-green-700' }}">
+                                            {{ ticket.status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-on-surface-variant text-xs py-4 text-center">No support tickets submitted yet.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Right Column: Submit Ticket Form -->
+    <div class="bg-white border border-outline-variant p-6 rounded shadow-sm space-y-4 h-fit">
+        <h3 class="text-primary font-bold text-sm uppercase tracking-wider border-b border-outline-variant pb-2">Submit New Ticket</h3>
+        <form method="POST" action="{{ url_for('dashboard.support') }}" class="space-y-4">
+            
+            <!-- Category Selection -->
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="category">Category</label>
+                <select class="signup-input h-10 px-3 text-sm bg-white border border-outline-variant rounded-sm" id="category" name="category" required>
+                    <option value="Technical Issue">Technical Issue</option>
+                    <option value="Guarantee Application Inquiry">Guarantee Application Inquiry</option>
+                    <option value="Billing / Invoice Query">Billing / Invoice Query</option>
+                    <option value="Account / Profile Issue">Account / Profile Issue</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <!-- Subject -->
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="subject">Subject</label>
+                <input class="signup-input h-10 px-3 text-sm bg-white border border-outline-variant rounded-sm" id="subject" name="subject" required type="text" placeholder="Short description of issue"/>
+            </div>
+
+            <!-- Message Query text area -->
+            <div class="flex flex-col space-y-1">
+                <label class="font-label-bold text-xs font-bold text-on-surface" for="message">Detailed Query Message</label>
+                <textarea class="signup-input p-3 text-sm bg-white border border-outline-variant rounded-sm h-32 resize-none" id="message" name="message" required placeholder="Explain your query in detail..."></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all text-center">
+                Submit Support Request
+            </button>
+        </form>
+    </div>
+
+</div>
+
+{% endblock %}

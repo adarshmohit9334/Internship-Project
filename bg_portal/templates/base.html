@@ -186,7 +186,7 @@
         </div>
         <div class="mt-auto px-6 py-6 border-t border-on-primary/10">
             <div class="space-y-4">
-                <a class="flex items-center gap-3 text-on-primary/60 hover:text-on-primary text-sm transition-colors" href="#">
+                <a class="flex items-center gap-3 text-on-primary/60 hover:text-on-primary text-sm transition-colors {{ 'font-bold text-on-primary' if request.endpoint == 'dashboard.support' else '' }}" href="{{ url_for('dashboard.support') }}">
                     <span class="material-symbols-outlined text-[18px]" data-icon="help">help</span>
                     <span>Support</span>
                 </a>
