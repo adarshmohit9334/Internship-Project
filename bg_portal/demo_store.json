@@ -178,8 +178,7 @@
       "designation": "Admin Manager",
       "mobile_no": "9999999999",
       "role": "requester",
-      "manager_id": null,
-      "is_active": false
+      "manager_id": null
     }
   },
   "bg_requests": {
@@ -622,5 +621,6 @@
     "md_threshold": 1500000,
     "notify_email": true,
     "notify_dashboard": true
-  }
+  },
+  "support_tickets": []
 }

@@ -118,11 +118,17 @@ def login():
                 })
                 user = getattr(auth_response, 'user', None)
                 if user:
+                    db_profile = store.get_profile(user.id)
+                    if not db_profile:
+                        for p in store.list_profiles():
+                            if p.get('email') == user.email:
+                                db_profile = p
+                                break
                     profile = {
                         'id': user.id,
-                        'role': 'requester',
-                        'name': user.user_metadata.get('name') if getattr(user, 'user_metadata', None) else None,
-                        'personnel_no': user.user_metadata.get('personnel_no') if getattr(user, 'user_metadata', None) else None,
+                        'role': db_profile.get('role', 'requester') if db_profile else 'requester',
+                        'name': (db_profile.get('name') if db_profile else None) or (user.user_metadata.get('name') if getattr(user, 'user_metadata', None) else None) or user.email.split('@')[0],
+                        'personnel_no': (db_profile.get('personnel_no') if db_profile else None) or (user.user_metadata.get('personnel_no') if getattr(user, 'user_metadata', None) else None),
                     }
             except Exception as exc:
                 flash(f'Login failed: {exc}', 'error')
