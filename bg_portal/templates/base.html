@@ -192,30 +192,46 @@
     <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden transition-opacity duration-300"></div>
 
     <!-- Top Navigation Bar -->
-    <header class="fixed top-0 right-0 h-[56px] w-full md:w-[calc(100%-220px)] bg-surface-container-lowest border-b border-outline-variant flex justify-between items-center px-4 md:px-container_padding z-40">
-        <div class="flex items-center gap-2 md:gap-6">
-            <!-- Sidebar toggle button for mobile -->
-            <button id="sidebar-toggle" class="block md:hidden text-primary hover:bg-surface-container-low p-2 rounded transition-colors mr-1">
-                <span class="material-symbols-outlined text-[24px]">menu</span>
-            </button>
-            <h2 class="text-primary font-bold text-lg md:text-xl py-4 tracking-tight">{% block page_title %}Terminal Operations{% endblock %}</h2>
-        </div>
-        <div class="flex items-center gap-4">
+    <header class="fixed top-0 right-0 h-[50px] w-full md:w-[calc(100%-220px)] bg-[#1a1a1a] border-b border-neutral-800 flex justify-between items-center px-4 z-40 text-white">
+        <div class="flex items-center gap-3 relative">
             {% if session.get('user') %}
-                <div class="flex items-center gap-3 bg-surface-container-low px-3 py-1 rounded border border-outline-variant">
-                    <a href="{{ url_for('auth.profile') }}" class="text-on-surface font-label-bold text-sm truncate max-w-[110px] sm:max-w-none flex items-center gap-1 hover:text-primary transition-colors" title="{{ session['user']['name'] }}">👤 {{ session['user']['name'] }}</a>
-                    <div class="h-4 w-[1px] bg-outline-variant"></div>
-                    <a href="{{ url_for('auth.logout') }}" class="text-error font-label-bold text-sm hover:underline">Logout</a>
+                <!-- 3 Line Menu Dropdown Button -->
+                <div class="relative">
+                    <button id="profile-dropdown-toggle" class="flex items-center justify-center text-gray-300 hover:text-white p-1 focus:outline-none">
+                        <span class="material-symbols-outlined text-[24px]">menu</span>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div id="profile-dropdown" class="absolute left-0 mt-2 w-48 bg-neutral-900 border border-neutral-800 rounded shadow-lg hidden py-1 z-50">
+                        <a href="{{ url_for('auth.profile') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-neutral-800 hover:text-white">Profile</a>
+                        <button id="mobile-nav-trigger" class="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-neutral-800 hover:text-white md:hidden">
+                            Navigation Menu
+                        </button>
+                    </div>
                 </div>
+                <!-- User Icon and Name (Personnel No) -->
+                <div class="flex items-center gap-2 text-gray-300">
+                    <span class="material-symbols-outlined text-[20px] text-gray-400">person</span>
+                    <span class="text-sm font-semibold truncate max-w-[150px] sm:max-w-none">{{ session['user']['name'] }} {% if session['user']['personnel_no'] %}({{ session['user']['personnel_no'] }}){% endif %}</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="flex items-center gap-2">
+            {% if session.get('user') %}
+                <a href="{{ url_for('auth.profile') }}" class="text-gray-300 hover:text-white text-xs font-semibold transition-colors px-1 sm:px-2">[Change Password]</a>
+                <a href="{{ url_for('auth.logout') }}" class="text-gray-300 hover:text-white text-xs font-semibold transition-colors px-1 sm:px-2">[Log Out]</a>
             {% else %}
-                <a href="{{ url_for('auth.login') }}" class="px-4 py-1.5 bg-primary text-on-primary text-sm font-label-bold rounded hover:bg-opacity-90">Login</a>
+                <a href="{{ url_for('auth.login') }}" class="text-gray-300 hover:text-white text-xs font-semibold px-2">Login</a>
             {% endif %}
         </div>
     </header>
 
     <!-- Main Content Canvas -->
-    <main class="ml-0 md:ml-[220px] pt-[56px] min-h-screen">
+    <main class="ml-0 md:ml-[220px] pt-[50px] min-h-screen">
         <div class="p-4 md:p-container_padding space-y-6">
+            <!-- Page Title Block -->
+            <div class="border-b border-outline-variant pb-2">
+                <h2 class="text-primary font-bold text-lg md:text-xl tracking-tight">{% block page_title %}Terminal Operations{% endblock %}</h2>
+            </div>
             <!-- Flash Alerts Stack -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -249,22 +265,17 @@
 
         // Sidebar Toggle Script for Mobile Devices
         const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebar-toggle');
         const sidebarClose = document.getElementById('sidebar-close');
         const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-        if (sidebarToggle) {
-            sidebarToggle.addEventListener('click', () => {
-                sidebar.classList.remove('-translate-x-full');
-                sidebar.classList.add('translate-x-0');
-                sidebarOverlay.classList.remove('hidden');
-            });
-        }
-
         function closeSidebar() {
-            sidebar.classList.remove('translate-x-0');
-            sidebar.classList.add('-translate-x-full');
-            sidebarOverlay.classList.add('hidden');
+            if (sidebar) {
+                sidebar.classList.remove('translate-x-0');
+                sidebar.classList.add('-translate-x-full');
+            }
+            if (sidebarOverlay) {
+                sidebarOverlay.classList.add('hidden');
+            }
         }
 
         if (sidebarClose) {
@@ -272,6 +283,39 @@
         }
         if (sidebarOverlay) {
             sidebarOverlay.addEventListener('click', closeSidebar);
+        }
+
+        // Profile Dropdown Toggle
+        const profileDropdownToggle = document.getElementById('profile-dropdown-toggle');
+        const profileDropdown = document.getElementById('profile-dropdown');
+        const mobileNavTrigger = document.getElementById('mobile-nav-trigger');
+
+        if (profileDropdownToggle && profileDropdown) {
+            profileDropdownToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                profileDropdown.classList.toggle('hidden');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!profileDropdown.contains(e.target) && !profileDropdownToggle.contains(e.target)) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
+        }
+
+        // Mobile Nav Trigger inside Dropdown to toggle sidebar
+        if (mobileNavTrigger) {
+            mobileNavTrigger.addEventListener('click', () => {
+                if (sidebar && sidebarOverlay) {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('translate-x-0');
+                    sidebarOverlay.classList.remove('hidden');
+                }
+                if (profileDropdown) {
+                    profileDropdown.classList.add('hidden');
+                }
+            });
         }
     </script>
 </body>
