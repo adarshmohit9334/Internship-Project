@@ -53,6 +53,53 @@ def profile():
     return render_template('auth/profile.html', profile=profile_data)
 
 
+@auth_bp.route('/change-password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    store = current_app.extensions['demo_store']
+    profile_id = session['user']['id']
+    profile_data = store.get_profile(profile_id)
+    
+    if request.method == 'POST':
+        old_password = request.form.get('old_password', '').strip()
+        new_password = request.form.get('new_password', '').strip()
+        confirm_password = request.form.get('confirm_password', '').strip()
+        
+        if not profile_data:
+            flash('Profile data not found.', 'error')
+            return redirect(url_for('auth.change_password'))
+            
+        if profile_data.get('password') and profile_data.get('password') != old_password:
+            flash('Current password does not match.', 'error')
+            return redirect(url_for('auth.change_password'))
+            
+        if new_password != confirm_password:
+            flash('New passwords do not match.', 'error')
+            return redirect(url_for('auth.change_password'))
+            
+        if not new_password:
+            flash('New password cannot be empty.', 'error')
+            return redirect(url_for('auth.change_password'))
+            
+        # Update the password
+        profile_data['password'] = new_password
+        store.add_profile(profile_data)
+        
+        # If Supabase is active, update the user password there
+        client = current_app.extensions.get('supabase')
+        if client:
+            try:
+                client.auth.update_user({'password': new_password})
+            except Exception as e:
+                print(f"Supabase password update failed: {e}")
+                
+        flash('Password updated successfully.', 'success')
+        return redirect(url_for('auth.profile'))
+        
+    return render_template('auth/change_password.html')
+
+
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

@@ -217,7 +217,7 @@
         </div>
         <div class="flex items-center gap-2">
             {% if session.get('user') %}
-                <a href="{{ url_for('auth.profile') }}" class="text-gray-300 hover:text-white text-xs font-semibold transition-colors px-1 sm:px-2">[Change Password]</a>
+                <a href="{{ url_for('auth.change_password') }}" class="text-gray-300 hover:text-white text-xs font-semibold transition-colors px-1 sm:px-2">[Change Password]</a>
                 <a href="{{ url_for('auth.logout') }}" class="text-gray-300 hover:text-white text-xs font-semibold transition-colors px-1 sm:px-2">[Log Out]</a>
             {% else %}
                 <a href="{{ url_for('auth.login') }}" class="text-gray-300 hover:text-white text-xs font-semibold px-2">Login</a>
