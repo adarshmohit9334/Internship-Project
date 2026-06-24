@@ -17,10 +17,10 @@
       "id": "user-admin-1",
       "personnel_no": "ADM1001",
       "name": "Admin User",
-      "email": "admin@example.com",
-      "department": "Finance",
+      "email": "admin123@gmail.com",
+      "department": "IT",
       "designation": "Admin",
-      "mobile_no": "8888888888",
+      "mobile_no": "9876543210",
       "role": "admin",
       "manager_id": null,
       "is_active": false,
@@ -99,7 +99,7 @@
       "department": "IT",
       "designation": "EMPLOYEE",
       "mobile_no": "9334721693",
-      "role": "requester",
+      "role": "admin",
       "manager_id": null,
       "is_active": true,
       "password": "Soni@123"
@@ -374,6 +374,30 @@
       "decision_at": "2026-06-22T18:54:55.341654",
       "created_at": "2026-06-22T18:47:38.475596",
       "updated_at": "2026-06-22T18:47:38.475603"
+    },
+    "68cf03b8-7466-4882-b766-356ad984b434": {
+      "id": "68cf03b8-7466-4882-b766-356ad984b434",
+      "requester_id": "09f939e2-e7f5-4242-b142-bb7ef4598ede",
+      "department": "IT",
+      "location": "PATNA",
+      "date_of_request": "2026-06-24",
+      "work_order_no": "3",
+      "type_of_work": "import",
+      "job_value": "120000000",
+      "alternate_owner_id": "",
+      "party_name": "ATUL",
+      "nature_of_bg": "Performance Bond",
+      "bg_amount": 1600000.0,
+      "bg_expiry_date": "2026-06-24",
+      "bg_claim_period": "6 months",
+      "remarks": "",
+      "approval_level": "Board",
+      "status": "Pending",
+      "admin_remarks": "",
+      "decided_by": null,
+      "decision_at": null,
+      "created_at": "2026-06-24T17:09:31.264612",
+      "updated_at": "2026-06-24T17:09:31.264622"
     }
   },
   "attachments": {
@@ -448,6 +472,38 @@
       "file_path": "/Users/adarshkumar/Downloads/Adarsh_Internship/Internship-Project/bg_portal/uploads/d8631b62-0f4c-4b77-8d02-fd91f2128141/bank_account_details.png",
       "uploaded_at": "2026-06-22T18:47:40.308143",
       "signed_url": "/Users/adarshkumar/Downloads/Adarsh_Internship/Internship-Project/bg_portal/uploads/d8631b62-0f4c-4b77-8d02-fd91f2128141/bank_account_details.png"
+    },
+    "4d51d4d2-34fa-4fdd-8783-7fa7f314c54b": {
+      "id": "4d51d4d2-34fa-4fdd-8783-7fa7f314c54b",
+      "bg_request_id": "68cf03b8-7466-4882-b766-356ad984b434",
+      "attachment_type": "bg_vetted_draft",
+      "file_name": "WhatsApp Image 2026-02-24 at 01.18.44.jpeg",
+      "file_path": "/Users/adarshkumar/Downloads/Adarsh_Internship/Internship-Project/bg_portal/uploads/68cf03b8-7466-4882-b766-356ad984b434/bg_vetted_draft.jpeg",
+      "uploaded_at": "2026-06-24T17:09:32.988812"
+    },
+    "c7d9ea4c-b13d-4dc7-b3cd-2406ae455433": {
+      "id": "c7d9ea4c-b13d-4dc7-b3cd-2406ae455433",
+      "bg_request_id": "68cf03b8-7466-4882-b766-356ad984b434",
+      "attachment_type": "board_approval",
+      "file_name": "WhatsApp Image 2025-12-03 at 19.50.31.jpeg",
+      "file_path": "/Users/adarshkumar/Downloads/Adarsh_Internship/Internship-Project/bg_portal/uploads/68cf03b8-7466-4882-b766-356ad984b434/board_approval.jpeg",
+      "uploaded_at": "2026-06-24T17:09:33.354081"
+    },
+    "664600d9-c4ca-4f62-9594-cb464037416d": {
+      "id": "664600d9-c4ca-4f62-9594-cb464037416d",
+      "bg_request_id": "68cf03b8-7466-4882-b766-356ad984b434",
+      "attachment_type": "beneficiary_clause",
+      "file_name": "WhatsApp Image 2026-03-30 at 15.05.45.jpeg",
+      "file_path": "/Users/adarshkumar/Downloads/Adarsh_Internship/Internship-Project/bg_portal/uploads/68cf03b8-7466-4882-b766-356ad984b434/beneficiary_clause.jpeg",
+      "uploaded_at": "2026-06-24T17:09:33.774641"
+    },
+    "89aace2d-b3c1-4528-82b8-23de525e37e4": {
+      "id": "89aace2d-b3c1-4528-82b8-23de525e37e4",
+      "bg_request_id": "68cf03b8-7466-4882-b766-356ad984b434",
+      "attachment_type": "bank_account_details",
+      "file_name": "WhatsApp Image 2026-02-24 at 01.17.59.jpeg",
+      "file_path": "/Users/adarshkumar/Downloads/Adarsh_Internship/Internship-Project/bg_portal/uploads/68cf03b8-7466-4882-b766-356ad984b434/bank_account_details.jpeg",
+      "uploaded_at": "2026-06-24T17:09:35.288075"
     }
   },
   "activity": [
@@ -550,6 +606,16 @@
       "new_status": "Approved",
       "note": "Direct one-click approval from dashboard",
       "created_at": "2026-06-22T18:54:56.766717"
+    },
+    {
+      "id": "38425b3c-9cd8-4ef6-a534-df765bf13bdb",
+      "bg_request_id": "68cf03b8-7466-4882-b766-356ad984b434",
+      "action_by": "09f939e2-e7f5-4242-b142-bb7ef4598ede",
+      "action": "Submitted request",
+      "old_status": "Draft",
+      "new_status": "Pending",
+      "note": "Request submitted for approval",
+      "created_at": "2026-06-24T17:09:35.488495"
     }
   ],
   "settings": {

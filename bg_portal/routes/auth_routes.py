@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, current_app
+from utils.auth_decorators import login_required
 import uuid
 
 auth_bp = Blueprint('auth', __name__)
@@ -11,6 +12,45 @@ def _build_session_user(profile):
         'name': profile.get('name') or profile.get('full_name'),
         'personnel_no': profile.get('personnel_no')
     }
+
+
+@auth_bp.route('/profile', methods=['GET', 'POST'])
+@login_required
+def profile():
+    store = current_app.extensions['demo_store']
+    profile_id = session['user']['id']
+    profile_data = store.get_profile(profile_id)
+    if not profile_data:
+        profile_data = {
+            'id': profile_id,
+            'name': session['user'].get('name', ''),
+            'role': session['user'].get('role', 'requester'),
+            'personnel_no': session['user'].get('personnel_no', ''),
+            'email': '',
+            'mobile_no': '',
+            'department': '',
+            'designation': ''
+        }
+    
+    if request.method == 'POST':
+        profile_data['name'] = request.form.get('name', '').strip()
+        profile_data['email'] = request.form.get('email', '').strip()
+        profile_data['mobile_no'] = request.form.get('mobile_no', '').strip()
+        profile_data['department'] = request.form.get('department', '').strip()
+        profile_data['designation'] = request.form.get('designation', '').strip()
+        
+        # Save profile
+        store.add_profile(profile_data)
+        
+        # Update session
+        session['user']['name'] = profile_data['name']
+        session['user']['personnel_no'] = profile_data.get('personnel_no')
+        session.modified = True
+        
+        flash('Profile updated successfully.', 'success')
+        return redirect(url_for('auth.profile'))
+        
+    return render_template('auth/profile.html', profile=profile_data)
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])

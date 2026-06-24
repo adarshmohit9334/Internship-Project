@@ -198,18 +198,12 @@
             <button id="sidebar-toggle" class="block md:hidden text-primary hover:bg-surface-container-low p-2 rounded transition-colors mr-1">
                 <span class="material-symbols-outlined text-[24px]">menu</span>
             </button>
-            <div class="relative group hidden sm:block">
-                <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline text-[20px]" data-icon="search">search</span>
-                <input class="pl-10 pr-4 py-1.5 w-60 md:w-80 bg-surface-container text-input-text border border-outline-variant focus:border-primary focus:ring-0 outline-none rounded-sm transition-all" placeholder="Search guarantees, clients, or audits..." type="text"/>
-            </div>
-            <div class="h-6 w-[1px] bg-outline-variant hidden sm:block"></div>
-            <h2 class="text-primary font-bold text-body-md py-4">{% block page_title %}Terminal Operations{% endblock %}</h2>
+            <h2 class="text-primary font-bold text-lg md:text-xl py-4 tracking-tight">{% block page_title %}Terminal Operations{% endblock %}</h2>
         </div>
         <div class="flex items-center gap-4">
             {% if session.get('user') %}
                 <div class="flex items-center gap-3 bg-surface-container-low px-3 py-1 rounded border border-outline-variant">
-                    <span class="text-on-surface font-label-bold text-sm hidden xs:inline">👤 {{ session['user']['name'] }}</span>
-                    <span class="text-on-surface font-label-bold text-sm xs:hidden">👤 Profile</span>
+                    <a href="{{ url_for('auth.profile') }}" class="text-on-surface font-label-bold text-sm truncate max-w-[110px] sm:max-w-none flex items-center gap-1 hover:text-primary transition-colors" title="{{ session['user']['name'] }}">👤 {{ session['user']['name'] }}</a>
                     <div class="h-4 w-[1px] bg-outline-variant"></div>
                     <a href="{{ url_for('auth.logout') }}" class="text-error font-label-bold text-sm hover:underline">Logout</a>
                 </div>

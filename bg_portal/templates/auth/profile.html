@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}My Profile | BankPort Terminal{% endblock %}
+{% block page_title %}My Profile{% endblock %}
+{% block content %}
+
+<!-- Page Header -->
+<div class="mb-6">
+    <h2 class="font-h1 text-2xl text-on-surface font-bold tracking-tight">User Profile Details</h2>
+    <p class="text-on-surface-variant text-sm">View or update your personnel profile information below.</p>
+</div>
+
+<div class="max-w-[600px] bg-white border border-outline-variant p-4 sm:p-6 space-y-6">
+    <div class="border-b border-outline-variant pb-2 flex justify-between items-center">
+        <h3 class="text-primary font-bold text-sm uppercase tracking-wider">Account Information</h3>
+        <span class="px-2 py-0.5 text-xs font-bold uppercase tracking-wider rounded bg-primary/10 text-primary">{{ profile.role }}</span>
+    </div>
+
+    <form method="POST" action="{{ url_for('auth.profile') }}" class="space-y-6">
+        <!-- Personnel Number (Disabled) -->
+        <div class="flex flex-col space-y-1">
+            <label class="font-label-bold text-xs font-bold text-on-surface" for="personnel_no">Personnel Number</label>
+            <input class="signup-input h-10 px-3 text-sm bg-gray-100 text-gray-500 cursor-not-allowed border border-outline-variant rounded-sm" id="personnel_no" name="personnel_no" value="{{ profile.personnel_no }}" disabled type="text"/>
+        </div>
+
+        <!-- Full Name -->
+        <div class="flex flex-col space-y-1">
+            <label class="font-label-bold text-xs font-bold text-on-surface" for="name">Full Name</label>
+            <input class="signup-input h-10 px-3 text-sm bg-white border border-outline-variant rounded-sm" id="name" name="name" value="{{ profile.name }}" required type="text"/>
+        </div>
+
+        <!-- Email Address -->
+        <div class="flex flex-col space-y-1">
+            <label class="font-label-bold text-xs font-bold text-on-surface" for="email">Email Address</label>
+            <input class="signup-input h-10 px-3 text-sm bg-white border border-outline-variant rounded-sm" id="email" name="email" value="{{ profile.email or '' }}" required type="email"/>
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="flex flex-col space-y-1">
+            <label class="font-label-bold text-xs font-bold text-on-surface" for="mobile_no">Mobile Number</label>
+            <input class="signup-input h-10 px-3 text-sm bg-white border border-outline-variant rounded-sm" id="mobile_no" name="mobile_no" value="{{ profile.mobile_no or '' }}" required type="tel"/>
+        </div>
+
+        <!-- Department -->
+        <div class="flex flex-col space-y-1">
+            <label class="font-label-bold text-xs font-bold text-on-surface" for="department">Department</label>
+            <input class="signup-input h-10 px-3 text-sm bg-white border border-outline-variant rounded-sm" id="department" name="department" value="{{ profile.department or '' }}" required type="text"/>
+        </div>
+
+        <!-- Designation -->
+        <div class="flex flex-col space-y-1">
+            <label class="font-label-bold text-xs font-bold text-on-surface" for="designation">Designation</label>
+            <input class="signup-input h-10 px-3 text-sm bg-white border border-outline-variant rounded-sm" id="designation" name="designation" value="{{ profile.designation or '' }}" required type="text"/>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex justify-end pt-4 border-t border-outline-variant">
+            <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded hover:bg-opacity-95 transition-all text-center">
+                Save Profile
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
