@@ -276,12 +276,6 @@
     <!-- Main Content Canvas -->
     <main class="ml-0 md:ml-[220px] pt-[50px] min-h-screen">
         <div class="p-4 md:p-container_padding space-y-6">
-            <!-- Page Title Block -->
-            {% if request.endpoint != 'dashboard.homepage' %}
-            <div class="border-b border-outline-variant pb-2">
-                <h2 class="text-primary font-bold text-lg md:text-xl tracking-tight">{% block page_title %}Terminal Operations{% endblock %}</h2>
-            </div>
-            {% endif %}
             <!-- Flash Alerts Stack -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
