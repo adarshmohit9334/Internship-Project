@@ -209,9 +209,51 @@
                     <!-- Dropdown Menu -->
                     <div id="profile-dropdown" class="absolute left-0 mt-2 w-48 bg-neutral-900 border border-neutral-800 rounded shadow-lg hidden py-1 z-50">
                         <a href="{{ url_for('auth.profile') }}" class="block px-4 py-2 text-sm text-gray-300 hover:bg-neutral-800 hover:text-white">Profile</a>
-                        <button id="mobile-nav-trigger" class="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-neutral-800 hover:text-white md:hidden">
-                            Navigation Menu
-                        </button>
+                        <!-- Mobile Navigation Links (visible only on mobile) -->
+                        <div class="md:hidden border-t border-neutral-800 mt-1 pt-1">
+                            <a href="{{ url_for('dashboard.homepage') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[16px]">home</span> Homepage
+                            </a>
+                            {% if session['user']['role'] == 'admin' %}
+                                <a href="{{ url_for('admin.dashboard') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">dashboard</span> Dashboard
+                                </a>
+                                <a href="{{ url_for('admin.all_requests') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">assignment</span> All Requests
+                                </a>
+                                <a href="{{ url_for('approval.pending') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">pending_actions</span> Pending
+                                </a>
+                                <a href="{{ url_for('admin.approved') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">verified_user</span> Approved
+                                </a>
+                                <a href="{{ url_for('admin.rejected') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">block</span> Rejected
+                                </a>
+                                <a href="{{ url_for('admin.users') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">group</span> Users
+                                </a>
+                                <a href="{{ url_for('report.reports') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">analytics</span> Reports
+                                </a>
+                                <a href="{{ url_for('settings.settings') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">settings</span> Settings
+                                </a>
+                            {% else %}
+                                <a href="{{ url_for('dashboard.home') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">dashboard</span> Dashboard
+                                </a>
+                                <a href="{{ url_for('request.new_request') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">security</span> New Request
+                                </a>
+                                <a href="{{ url_for('request.my_requests') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px]">assignment</span> My Requests
+                                </a>
+                            {% endif %}
+                            <a href="{{ url_for('dashboard.support') }}" class="block px-4 py-2 text-xs uppercase tracking-wider text-gray-400 hover:bg-neutral-800 hover:text-white flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[16px]">help</span> Support
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <!-- User Icon and Name (Personnel No) -->
